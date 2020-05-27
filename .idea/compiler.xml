@@ -9,8 +9,5 @@
         <module name="kdewallet" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="kdewallet" target="8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
