@@ -4,7 +4,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/org.purejava/kdewallet.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.purejava%22%20AND%20a:%22kdewallet%22)
 [![License](https://img.shields.io/github/license/purejava/kdewallet.svg)](https://github.com/purejava/kdewallet/blob/master/LICENSE)
 
-A Java library for storing secrets on linux in a KDE wallet over D-Bus. Like libsecret, but written in Java.
+A Java library for storing secrets on linux in a KDE wallet over D-Bus.
 
 # Usage
 The library provides a simplified high-level API, which sends transport encrypted secrets over D-Bus and has D-Bus signaling enabled.
