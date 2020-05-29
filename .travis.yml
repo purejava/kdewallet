@@ -14,7 +14,7 @@ addons:
 before_install:
  - sudo apt-get update
  - sudo apt-get install -y dbus dbus-java-bin dbus-x11
- - sudo apt-get install -y libkf5wallet5
+ - sudo apt-get install -y kwalletmanager
 install:
 script:
   - mvn compile
