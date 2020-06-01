@@ -1,14 +1,10 @@
 package org.purejava;
 
 import org.freedesktop.dbus.Static;
-import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,13 +27,13 @@ public class KDEWalletTest
     }
 
     @Test
+    @DisplayName("Checking availiability of kdewallet...")
     public void wallets() {
         KDEWallet kwallet = new KDEWallet(context.connection);
         Object[] response = kwallet.send("wallets");
         assertEquals(1, response.length);
-        String walletName = (String) response[0];
-        assertEquals(walletName, Static.DEFAULT_WALLET);
-        List<String> walletList = Arrays.asList((String)response[0]);
-        log.info(walletList.get(0));
+        List<String> walletNames = (List<String>) response[0];
+        assertEquals(walletNames.get(0), Static.DEFAULT_WALLET);
+        log.info("Found: " + walletNames.get(0));
     }
 }
