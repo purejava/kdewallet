@@ -2,8 +2,11 @@ package org.purejava;
 
 import org.freedesktop.dbus.Static;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
+import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.messages.DBusSignal;
 import org.kde.KWallet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +16,9 @@ import java.util.List;
  *
  */
 public class KDEWallet extends KWallet {
+
+    private final Logger log = LoggerFactory.getLogger(KDEWallet.class);
+    private DBusConnection connection = null;
 
     public static final List<Class<? extends DBusSignal>> signals = Arrays.asList(
             ApplicationDisconnected.class,
@@ -32,20 +38,26 @@ public class KDEWallet extends KWallet {
                 Static.Service.SECRETS,
                 Static.ObjectPaths.SECRETS,
                 Static.Interfaces.WALLET);
-    }
-
-    public static void main(String[] args ) {
-        System.out.println( "Hello World!" );
+        this.connection = connection;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        try {
+            KWallet kwallet = connection.getRemoteObject("org.kde.kwalletd5",
+                    "/modules/kwalletd5", KWallet.class);
+            log.info("Kwallet daemon is available.");
+            return true;
+        } catch (DBusException e) {
+            log.error(e.toString(), e.getCause());
+            return false;
+        }
     }
 
     @Override
     public int open(String wallet, long wId, String appid) {
-        return 0;
+        Object[] response = send("open", "sxs", wallet, wId, appid);
+        return (int) response[0];
     }
 
     @Override
@@ -55,7 +67,8 @@ public class KDEWallet extends KWallet {
 
     @Override
     public int openAsync(String wallet, long wId, String appid, boolean handleSession) {
-        return 0;
+        Object[] response = send("openAsync", "sxsb", wallet, wId, appid, handleSession);
+        return (int) response[0];
     }
 
     @Override
@@ -65,12 +78,14 @@ public class KDEWallet extends KWallet {
 
     @Override
     public int close(String wallet, boolean force) {
-        return 0;
+        Object[] response = send("close", "sb", wallet, force);
+        return (int) response[0];
     }
 
     @Override
     public int close(int handle, boolean force, String appid) {
-        return 0;
+        Object[] response = send("close", "xbs", handle, force, appid);
+        return (int) response[0];
     }
 
     @Override

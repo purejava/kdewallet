@@ -33,7 +33,7 @@ public abstract class Messaging {
         return msg.send(serviceName, objectPath, interfaceName, method, "");
     }
 
-    protected Object[] send(String method, String signature, Object... arguments) {
+    public Object[] send(String method, String signature, Object... arguments) {
         return msg.send(serviceName, objectPath, interfaceName, method, signature, arguments);
     }
 
