@@ -203,18 +203,18 @@ public abstract class KWallet extends AbstractInterface implements DBusInterface
     abstract public int deleteWallet(String wallet);
 
     /**
-     * ???
+     * Is the wallet open and unlocked?
      *
      * @param wallet    The wallet to be tested.
-     * @return ??? or not.
+     * @return True, if the wallet is open and unlocked, false otherwise.
      */
     abstract public boolean isOpen(String wallet);
 
     /**
-     * ???
+     * Is the wallet open and unlocked?
      *
      * @param handle    The handle to the wallet to be tested.
-     * @return ??? or not.
+     * @return True, if the wallet is open and unlocked, false otherwise.
      */
     abstract public boolean isOpen(int handle);
 
