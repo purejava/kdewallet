@@ -181,7 +181,7 @@ public abstract class KWallet extends AbstractInterface implements DBusInterface
      * @param handle Handle to the wallet to be closed and locked.
      * @param force  Forced closing or not.
      * @param appid  AppID of the app to access the wallet.
-     * @return -1 if wallet does not exist, 0 if all references fom applications to the wallet have been removed.
+     * @return -1 if wallet does not exist, amount of references to the wallet fom other applications.
      */
     abstract public int close(int handle, boolean force, String appid);
 
@@ -222,7 +222,7 @@ public abstract class KWallet extends AbstractInterface implements DBusInterface
      * List the applications that are using the wallet.
      *
      * @param wallet    The wallet to query.
-     * @return Returns a list of all application IDs using the wallet.
+     * @return A list of all application IDs using the wallet.
      */
     abstract public List<String> users(String wallet);
 
@@ -253,8 +253,24 @@ public abstract class KWallet extends AbstractInterface implements DBusInterface
 
     abstract public boolean hasFolder(int handle, String folder, String appid);
 
+    /**
+     * Create a folder.
+     *
+     * @param handle    Handle to the wallet to write to.
+     * @param folder    Name of the folder.
+     * @param appid     AppID of the app to access the wallet.
+     * @return True on success, false on error or in case the folder already exists.
+     */
     abstract public boolean createFolder(int handle, String folder, String appid);
 
+    /**
+     * Delete a folder.
+     *
+     * @param handle    Handle to the wallet to write to.
+     * @param folder    Name of the folder.
+     * @param appid AppID of the app to access the wallet.
+     * @return True on success, false on error.
+     */
     abstract public boolean removeFolder(int handle, String folder, String appid);
 
     abstract public List<String> entryList(int handle, String folder, String appid);
@@ -263,6 +279,15 @@ public abstract class KWallet extends AbstractInterface implements DBusInterface
 
     abstract public List<Byte> readMap(int handle, String folder, String key, String appid);
 
+    /**
+     * Read a secret from the wallet.
+     *
+     * @param handle    Handle to the wallet to read from.
+     * @param folder    Folder that contains the secret.
+     * @param key       Identifier for the secret.
+     * @param appid     AppID of the app to access the wallet.
+     * @return The secret or an empty Sting, in case there is no secret stored for that key.
+     */
     abstract public String readPassword(int handle, String folder, String key, String appid);
 
     /*
@@ -281,20 +306,48 @@ public abstract class KWallet extends AbstractInterface implements DBusInterface
 
     abstract public int writeMap(int handle, String folder, String key, List<Byte> value, String appid);
 
+    /**
+     * Store a secret in the wallet.
+     *
+     * @param handle    Handle to the wallet to write to.
+     * @param folder    Folder to store the secret in.
+     * @param key       Identifier for the secret.
+     * @param value     The secret itself.
+     * @param appid     AppID of the app to access the wallet.
+     * @return 0 if storing the secret was successful, -1 otherwise.
+     */
     abstract public int writePassword(int handle, String folder, String key, String value, String appid);
 
+    /**
+     * Check whether a folder in a wallet contains an identifier for a secret.
+     *
+     * @param handle    Handle to the wallet to read from.
+     * @param folder    Folder to search.
+     * @param key       Identifier for the secret.
+     * @param appid     AppID of the app to access the wallet.
+     * @return True if the folder contains the key, false otherwise.
+     */
     abstract public boolean hasEntry(int handle, String folder, String key, String appid);
 
     abstract public int entryType(int handle, String folder, String key, String appid);
 
+    /**
+     * Delete an identifier for a secret from the folder.
+     *
+     * @param handle    Handle to the wallet to write to.
+     * @param folder    Folder to delete the key from.
+     * @param key       Identifier for the secret.
+     * @param appid     AppID of the app to access the wallet.
+     * @return 0 if deleting the key was successful, -1 in case the wallet does not exist, -3 in case the key does not exist.
+     */
     abstract public int removeEntry(int handle, String folder, String key, String appid);
 
     /**
      * Disconnect the application from wallet.
      *
      * @param wallet      The name of the wallet to disconnect from.
-     * @param application The name of the application to be disconnected.
-     * @return Returns true on success, false on error.
+     * @param application The name of the application to disconnect.
+     * @return True on success, false on error.
      */
     abstract public boolean disconnectApplication(String wallet, String application);
 

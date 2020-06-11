@@ -8,8 +8,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.lang.System.exit;
-
 public class Context {
 
     public Logger log;
@@ -20,14 +18,11 @@ public class Context {
         this.log = log;
     }
 
-    /*    ToDo
-    Encrypt connection */
     public void ensureService() {
         try {
             connection = DBusConnection.getConnection(DBusConnection.DBusBusType.SESSION);
         } catch (DBusException e) {
             log.error(e.toString(), e.getCause());
-            exit(-1);
         }
     }
 

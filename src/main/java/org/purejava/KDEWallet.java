@@ -11,14 +11,10 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Hello world!
- *
- */
-public class KDEWallet extends KWallet {
+public class KDEWallet extends KWallet implements AutoCloseable {
 
     private final Logger log = LoggerFactory.getLogger(KDEWallet.class);
-    private DBusConnection connection = null;
+    private DBusConnection connection;
 
     public static final List<Class<? extends DBusSignal>> signals = Arrays.asList(
             ApplicationDisconnected.class,
@@ -84,7 +80,7 @@ public class KDEWallet extends KWallet {
 
     @Override
     public int close(int handle, boolean force, String appid) {
-        Object[] response = send("close", "xbs", handle, force, appid);
+        Object[] response = send("close", "ibs", handle, force, appid);
         return (int) response[0];
     }
 
@@ -100,12 +96,14 @@ public class KDEWallet extends KWallet {
 
     @Override
     public boolean isOpen(String wallet) {
-        return false;
+        Object[] response = send("isOpen", "s", wallet);
+        return (boolean) response[0];
     }
 
     @Override
     public boolean isOpen(int handle) {
-        return false;
+        Object[] response = send("isOpen", "i", handle);
+        return (boolean) response[0];
     }
 
     @Override
@@ -136,12 +134,14 @@ public class KDEWallet extends KWallet {
 
     @Override
     public boolean createFolder(int handle, String folder, String appid) {
-        return false;
+        Object[] response = send("createFolder", "iss", handle, folder, appid);
+        return (boolean) response[0];
     }
 
     @Override
     public boolean removeFolder(int handle, String folder, String appid) {
-        return false;
+        Object[] response = send("removeFolder", "iss", handle, folder, appid);
+        return (boolean) response[0];
     }
 
     @Override
@@ -161,7 +161,8 @@ public class KDEWallet extends KWallet {
 
     @Override
     public String readPassword(int handle, String folder, String key, String appid) {
-        return null;
+        Object[] response = send("readPassword", "isss", handle, folder, key, appid);
+        return (String) response[0];
     }
 
     @Override
@@ -186,12 +187,14 @@ public class KDEWallet extends KWallet {
 
     @Override
     public int writePassword(int handle, String folder, String key, String value, String appid) {
-        return 0;
+        Object[] response = send("writePassword", "issss", handle, folder, key, value, appid);
+        return (int) response[0];
     }
 
     @Override
     public boolean hasEntry(int handle, String folder, String key, String appid) {
-        return false;
+        Object[] response = send("hasEntry", "isss", handle, folder, key, appid);
+        return (boolean) response[0];
     }
 
     @Override
@@ -201,7 +204,8 @@ public class KDEWallet extends KWallet {
 
     @Override
     public int removeEntry(int handle, String folder, String key, String appid) {
-        return 0;
+        Object[] response = send("removeEntry", "isss", handle, folder, key, appid);
+        return (int) response[0];
     }
 
     @Override
@@ -244,5 +248,14 @@ public class KDEWallet extends KWallet {
     @Override
     public boolean isRemote() {
         return false;
+    }
+
+    @Override
+    public void close() {
+        try {
+            if (connection != null) connection.disconnect();
+        } catch (Exception e) {
+            log.error(e.toString(), e.getCause());
+        }
     }
 }
