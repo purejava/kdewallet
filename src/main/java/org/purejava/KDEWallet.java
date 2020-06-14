@@ -3,15 +3,17 @@ package org.purejava;
 import org.freedesktop.dbus.Static;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
+import org.freedesktop.dbus.handlers.Messaging;
+import org.freedesktop.dbus.interfaces.AbstractInterface;
 import org.freedesktop.dbus.messages.DBusSignal;
-import org.kde.KWallet;
+import org.kde.KWalletIface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class KDEWallet extends KWallet implements AutoCloseable {
+public class KDEWallet extends Messaging implements KWalletIface, AutoCloseable {
 
     private final Logger log = LoggerFactory.getLogger(KDEWallet.class);
     private DBusConnection connection;
@@ -20,6 +22,7 @@ public class KDEWallet extends KWallet implements AutoCloseable {
             ApplicationDisconnected.class,
             FolderUpdated.class,
             FolderListUpdated.class,
+            AbstractInterface.WalletClosed.class,
             AllWalletsClosed.class,
             WalletClosed.class,
             WalletDeleted.class,
@@ -40,8 +43,8 @@ public class KDEWallet extends KWallet implements AutoCloseable {
     @Override
     public boolean isEnabled() {
         try {
-            KWallet kwallet = connection.getRemoteObject("org.kde.kwalletd5",
-                    "/modules/kwalletd5", KWallet.class);
+            org.kde.KWalletIface kwallet = connection.getRemoteObject("org.kde.kwalletd5",
+                    "/modules/kwalletd5", org.kde.KWalletIface.class);
             log.info("Kwallet daemon is available.");
             return true;
         } catch (DBusException e) {

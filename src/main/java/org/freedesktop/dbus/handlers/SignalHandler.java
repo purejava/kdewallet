@@ -2,9 +2,11 @@ package org.freedesktop.dbus.handlers;
 
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
+import org.freedesktop.dbus.interfaces.AbstractInterface;
 import org.freedesktop.dbus.interfaces.DBusSigHandler;
 import org.freedesktop.dbus.messages.DBusSignal;
 import org.kde.KWallet;
+import org.kde.KWalletIface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,9 +87,12 @@ public class SignalHandler implements DBusSigHandler {
         } else if (s instanceof KWallet.WalletDeleted) {
             KWallet.WalletDeleted wd = (KWallet.WalletDeleted) s;
             log.info("KWallet.WalletDeleted: " + wd.wallet);
-        } else if (s instanceof KWallet.WalletClosed) {
-            KWallet.WalletClosed wc = (KWallet.WalletClosed) s;
+        } else if (s instanceof KWalletIface.WalletClosed) {
+            KWalletIface.WalletClosed wc = (KWalletIface.WalletClosed) s;
             log.info("KWallet.WalletClosed: " + wc.wallet);
+        } else if (s instanceof AbstractInterface.WalletClosed) {
+            AbstractInterface.WalletClosed wc = (AbstractInterface.WalletClosed) s;
+            log.info("KWallet.WalletClosed: " + wc.handle);
         } else if (s instanceof KWallet.AllWalletsClosed) {
             log.info("KWallet.AllWalletsClosed: " + s.getPath());
         } else if (s instanceof KWallet.FolderListUpdated) {
