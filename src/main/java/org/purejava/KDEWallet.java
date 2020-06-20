@@ -149,12 +149,14 @@ public class KDEWallet extends Messaging implements KWalletIface, AutoCloseable 
 
     @Override
     public List<String> entryList(int handle, String folder, String appid) {
-        return null;
+        Object[] response = send("entryList", "iss", handle, folder, appid);
+        return (List<String>) response[0];
     }
 
     @Override
-    public List<Byte> readEntry(int handle, String folder, String key, String appid) {
-        return null;
+    public byte[] readEntry(int handle, String folder, String key, String appid) {
+        Object[] response = send("readEntry", "isss", handle, folder, key, appid);
+        return (byte[]) response[0];
     }
 
     @Override
@@ -175,12 +177,14 @@ public class KDEWallet extends Messaging implements KWalletIface, AutoCloseable 
 
     @Override
     public int writeEntry(int handle, String folder, String key, List<Byte> value, int entryType, String appid) {
-        return 0;
+        Object[] response = send("writeEntry", "issayis", handle, folder, key, value, entryType, appid);
+        return (int) response[0];
     }
 
     @Override
     public int writeEntry(int handle, String folder, String key, List<Byte> value, String appid) {
-        return 0;
+        Object[] response = send("writeEntry", "issays", handle, folder, key, value, appid);
+        return (int) response[0];
     }
 
     @Override
@@ -202,7 +206,8 @@ public class KDEWallet extends Messaging implements KWalletIface, AutoCloseable 
 
     @Override
     public int entryType(int handle, String folder, String key, String appid) {
-        return 0;
+        Object[] response = send("entryType", "isss", handle, folder, key, appid);
+        return (int) response[0];
     }
 
     @Override

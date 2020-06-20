@@ -1,7 +1,5 @@
 package org.kde;
 
-import org.freedesktop.dbus.Static;
-import org.freedesktop.dbus.annotations.DBusInterfaceName;
 import org.freedesktop.dbus.annotations.MethodNoReply;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.interfaces.DBusInterface;
@@ -151,7 +149,7 @@ public interface KWalletIface extends DBusInterface {
     abstract public int openPathAsync(String path, long wId, String appid, boolean handleSession);
 
     /**
-     * Close and lock the wallet.
+     * Close and lock the wallet. The wallet will only be closed if it is open but not in use (rare), or if it is forced closed.
      * <p>
      * If force = true, will close it for all users.  Behave.  This
      * can break applications, and is generally intended for use by
@@ -265,11 +263,15 @@ public interface KWalletIface extends DBusInterface {
      */
     abstract public boolean removeFolder(int handle, String folder, String appid);
 
+    /**
+     * Get a list of all the entries (keys) in the given folder.
+     *
+     * @param handle    Handle to the wallet to read from.
+     * @param folder    Name of the folder.
+     * @param appid     AppID of the app to access the wallet.
+     * @return List of entries (keys) in the folder.
+     */
     abstract public List<String> entryList(int handle, String folder, String appid);
-
-    abstract public List<Byte> readEntry(int handle, String folder, String key, String appid);
-
-    abstract public List<Byte> readMap(int handle, String folder, String key, String appid);
 
     /**
      * Read a secret from the wallet.
@@ -278,7 +280,20 @@ public interface KWalletIface extends DBusInterface {
      * @param folder    Folder that contains the secret.
      * @param key       Identifier for the secret.
      * @param appid     AppID of the app to access the wallet.
-     * @return The secret or an empty Sting, in case there is no secret stored for that key.
+     * @return The secret or an array bytes with length 0, in case there is no secret stored for that key.
+     */
+    abstract public byte[] readEntry(int handle, String folder, String key, String appid);
+
+    abstract public List<Byte> readMap(int handle, String folder, String key, String appid);
+
+    /**
+     * Read a secret of type password from the wallet.
+     *
+     * @param handle    Handle to the wallet to read from.
+     * @param folder    Folder that contains the secret.
+     * @param key       Identifier for the secret.
+     * @param appid     AppID of the app to access the wallet.
+     * @return The secret or an empty String, in case there is no secret stored for that key.
      */
     abstract public String readPassword(int handle, String folder, String key, String appid);
 
@@ -292,14 +307,35 @@ public interface KWalletIface extends DBusInterface {
 
     abstract public int renameEntry(int handle, String folder, String oldName, String newName, String appid);
 
+    /**
+     * Store a secret in the wallet. An existing secret gets overwritten.
+     *
+     * @param handle    Handle to the wallet to write to.
+     * @param folder    Folder to store the secret in.
+     * @param key       Identifier for the secret.
+     * @param value     The secret itself.
+     * @param entryType An enumerated type representing the type of the entry, e.g. 1 for password, 2 for stream, 3 for map
+     * @param appid     AppID of the app to access the wallet.
+     * @return 0 if storing the secret was successful, -1 otherwise.
+     */
     abstract public int writeEntry(int handle, String folder, String key, List<Byte> value, int entryType, String appid);
 
+    /**
+     * Store a secret of type stream in the wallet. An existing secret gets overwritten.
+     *
+     * @param handle    Handle to the wallet to write to.
+     * @param folder    Folder to store the secret in.
+     * @param key       Identifier for the secret.
+     * @param value     The secret itself.
+     * @param appid     AppID of the app to access the wallet.
+     * @return 0 if storing the secret was successful, -1 otherwise.
+     */
     abstract public int writeEntry(int handle, String folder, String key, List<Byte> value, String appid);
 
     abstract public int writeMap(int handle, String folder, String key, List<Byte> value, String appid);
 
     /**
-     * Store a secret in the wallet. An existing secret gets overwritten.
+     * Store a secret of type password in the wallet. An existing secret gets overwritten.
      *
      * @param handle    Handle to the wallet to write to.
      * @param folder    Folder to store the secret in.
@@ -321,6 +357,15 @@ public interface KWalletIface extends DBusInterface {
      */
     abstract public boolean hasEntry(int handle, String folder, String key, String appid);
 
+    /**
+     * Determine the type of the entry key in this folder.
+     *
+     * @param handle    Handle to the wallet to read from.
+     * @param folder    Name of the folder.
+     * @param key       Identifier for the secret.
+     * @param appid     AppID of the app to access the wallet.
+     * @return An enumerated type representing the type of the entry on creation, e.g. 1 for password, 2 for stream, 3 for map, 0 if the key was not found.
+     */
     abstract public int entryType(int handle, String folder, String key, String appid);
 
     /**

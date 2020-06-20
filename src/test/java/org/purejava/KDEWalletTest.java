@@ -54,8 +54,8 @@ public class KDEWalletTest {
 
     @Test
     @Order(3)
-    @DisplayName("Testing unlocked kdewallet...")
-    void testUnlockedKdewallet() {
+    @DisplayName("Testing password functionality in unlocked kdewallet...")
+    void testPassword() {
         KDEWallet kwallet = new KDEWallet(context.connection);
         String wallet = Static.DEFAULT_WALLET;
         int wId = 0;
@@ -63,13 +63,13 @@ public class KDEWalletTest {
         Object[] response = kwallet.send("open", "sxs", wallet, wId, appid);
         int handle = (int) response[0];
         assertTrue(handle > 0);
-        log.info("Wallet " + "'" + Static.DEFAULT_WALLET + "' successfully opened.");
-        log.info("Received handle: " + handle);
+        if (handle > 0) log.info("Wallet " + "'" + Static.DEFAULT_WALLET + "' successfully opened.");
+        if (handle > 0) log.info("Received handle: " + handle + ".");
         String folder = "Test-Folder";
         response = kwallet.send("createFolder", "iss", handle, folder, appid);
         boolean folderCreated = (boolean) response[0];
         assertTrue(folderCreated);
-        if (folderCreated) log.info("Folder '" + folder + "' successfully created.");
+        log.info("Folder '" + folder + "' successfully created.");
         String key = "PW1";
         String value = "secret1";
         response = kwallet.send("writePassword", "issss", handle, folder, key, value, appid);
@@ -83,7 +83,7 @@ public class KDEWalletTest {
         response = kwallet.send("hasEntry", "isss", handle, folder, key, appid);
         boolean keyFound = (boolean) response[0];
         assertTrue(keyFound);
-        if (keyFound) log.info("Folder '" + folder + "' has key '" + key + "'.");
+        log.info("Folder '" + folder + "' has key '" + key + "'.");
         response = kwallet.send("removeEntry", "isss", handle, folder, key, appid);
         int keyRemoved = (int) response[0];
         assertEquals(keyRemoved, 0);
@@ -91,10 +91,10 @@ public class KDEWalletTest {
         response = kwallet.send("removeFolder", "iss", handle, folder, appid);
         boolean folderRemoved = (boolean) response[0];
         assertTrue(folderRemoved);
-        if (folderRemoved) log.info("Folder '" + folder + "' successfully deleted.");
+        log.info("Folder '" + folder + "' successfully deleted.");
         response = kwallet.send("close", "ibs", handle, false, appid);
         int walletClosed = (int) response[0];
         assertTrue(walletClosed != -1);
-        if (walletClosed != -1) log.info("Wallet '" + Static.DEFAULT_WALLET + "' with handle '" + handle + "' successfully closed.");
+        log.info("Wallet '" + Static.DEFAULT_WALLET + "' with handle '" + handle + "' successfully closed.");
     }
 }
