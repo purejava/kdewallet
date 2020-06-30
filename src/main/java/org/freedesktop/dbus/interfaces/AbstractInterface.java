@@ -15,11 +15,11 @@ public abstract class AbstractInterface extends Messaging {
         super(connection, signals, serviceName, objectPath, interfaceName);
     }
 
-    @DBusInterfaceName("org.kde.KWallet.WwalletClosed")
-    public static class WalletClosed extends DBusSignal {
+    @DBusInterfaceName("org.kde.KWallet.walletClosed")
+    public static class walletClosed extends DBusSignal {
         public final int handle;
 
-        public WalletClosed(String path, int handle) throws DBusException {
+        public walletClosed(String path, int handle) throws DBusException {
             super(path, handle);
             this.handle = handle;
         }

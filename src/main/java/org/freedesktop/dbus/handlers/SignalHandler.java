@@ -6,7 +6,6 @@ import org.freedesktop.dbus.interfaces.AbstractInterface;
 import org.freedesktop.dbus.interfaces.DBusSigHandler;
 import org.freedesktop.dbus.messages.DBusSignal;
 import org.kde.KWallet;
-import org.kde.KWalletIface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,37 +77,37 @@ public class SignalHandler implements DBusSigHandler {
         handled[0] = s;
         count += 1;
 
-        if (s instanceof KWallet.WalletOpened) {
-            KWallet.WalletOpened wo = (KWallet.WalletOpened) s;
-            log.info("KWallet.WalletOpened: " + wo.wallet);
-        } else if (s instanceof KWallet.WalletAsyncOpened) {
-            KWallet.WalletAsyncOpened wo = (KWallet.WalletAsyncOpened) s;
-            log.info("KWallet.WalletAsyncOpened: " + wo.tId + " / " + wo.handle);
-        } else if (s instanceof KWallet.WalletDeleted) {
-            KWallet.WalletDeleted wd = (KWallet.WalletDeleted) s;
-            log.info("KWallet.WalletDeleted: " + wd.wallet);
-        } else if (s instanceof KWalletIface.WalletClosed) {
-            KWalletIface.WalletClosed wc = (KWalletIface.WalletClosed) s;
-            log.info("KWallet.WalletClosed: " + wc.wallet);
-        } else if (s instanceof AbstractInterface.WalletClosed) {
-            AbstractInterface.WalletClosed wc = (AbstractInterface.WalletClosed) s;
-            log.info("KWallet.WalletClosed: " + wc.handle);
-        } else if (s instanceof KWallet.AllWalletsClosed) {
-            log.info("KWallet.AllWalletsClosed: " + s.getPath());
-        } else if (s instanceof KWallet.FolderListUpdated) {
-            KWallet.FolderListUpdated flu = (KWallet.FolderListUpdated) s;
-            log.info("KWallet.FolderListUpdated: " + flu.wallet);
-        } else if (s instanceof KWallet.FolderUpdated) {
-            KWallet.FolderUpdated fu = (KWallet.FolderUpdated) s;
-            log.info("KWallet.FolderUpdated: " + fu.a + " / " + fu.b);
-        } else if (s instanceof KWallet.ApplicationDisconnected) {
-            KWallet.ApplicationDisconnected ad = (KWallet.ApplicationDisconnected) s;
-            log.info("KWallet.ApplicationDisconnected: " + ad.application + " / "+ ad.wallet);
-        } else if (s instanceof KWallet.WalletListDirty) {
-            log.info("KWallet.WalletListDirty: " + s.getPath());
-        } else if (s instanceof KWallet.WalletCreated) {
-            KWallet.WalletCreated wc = (KWallet.WalletCreated) s;
-            log.info("KWallet.WalletCreated: " + wc.wallet);
+        if (s instanceof KWallet.walletOpened) {
+            KWallet.walletOpened wo = (KWallet.walletOpened) s;
+            log.info("KWallet.walletOpened: " + wo.wallet);
+        } else if (s instanceof KWallet.walletAsyncOpened) {
+            KWallet.walletAsyncOpened wo = (KWallet.walletAsyncOpened) s;
+            log.info("KWallet.walletAsyncOpened: " + wo.tId + " / " + wo.handle);
+        } else if (s instanceof KWallet.walletDeleted) {
+            KWallet.walletDeleted wd = (KWallet.walletDeleted) s;
+            log.info("KWallet.walletDeleted: " + wd.wallet);
+        } else if (s instanceof KWallet.walletClosed) {
+            KWallet.walletClosed wc = (KWallet.walletClosed) s;
+            log.info("KWallet.walletClosed: " + wc.wallet);
+        } else if (s instanceof AbstractInterface.walletClosed) {
+            AbstractInterface.walletClosed wc = (AbstractInterface.walletClosed) s;
+            log.info("KWallet.walletClosed: " + wc.handle);
+        } else if (s instanceof KWallet.allWalletsClosed) {
+            log.info("KWallet.allWalletsClosed: " + s.getPath());
+        } else if (s instanceof KWallet.folderListUpdated) {
+            KWallet.folderListUpdated flu = (KWallet.folderListUpdated) s;
+            log.info("KWallet.folderListUpdated: " + flu.wallet);
+        } else if (s instanceof KWallet.folderUpdated) {
+            KWallet.folderUpdated fu = (KWallet.folderUpdated) s;
+            log.info("KWallet.folderUpdated: " + fu.a + " / " + fu.b);
+        } else if (s instanceof KWallet.applicationDisconnected) {
+            KWallet.applicationDisconnected ad = (KWallet.applicationDisconnected) s;
+            log.info("KWallet.applicationDisconnected: " + ad.application + " / "+ ad.wallet);
+        } else if (s instanceof KWallet.walletListDirty) {
+            log.info("KWallet.walletListDirty: " + s.getPath());
+        } else if (s instanceof KWallet.walletCreated) {
+            KWallet.walletCreated wc = (KWallet.walletCreated) s;
+            log.info("KWallet.walletCreated: " + wc.wallet);
         } else {
             log.warn("Handled unknown signal: " + s.getClass().toString() + " {" + s.toString() + "}");
         }

@@ -3,6 +3,7 @@ package org.purejava;
 import org.freedesktop.dbus.Static;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.junit.jupiter.api.*;
+import org.kde.KWallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,8 +33,8 @@ public class KDEWalletTest {
     @DisplayName("Checking availability of kwallet daemon...")
     public void isEnabled() {
         try {
-            org.kde.KWalletIface kwallet = context.connection.getRemoteObject("org.kde.kwalletd5",
-                    "/modules/kwalletd5", org.kde.KWalletIface.class);
+            KWallet kwallet = context.connection.getRemoteObject("org.kde.kwalletd5",
+                    "/modules/kwalletd5", KWallet.class);
             log.info("Kwallet daemon is available.");
         } catch (DBusException e) {
             log.error(e.toString(), e.getCause());

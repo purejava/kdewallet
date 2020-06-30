@@ -6,30 +6,30 @@ import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.handlers.Messaging;
 import org.freedesktop.dbus.interfaces.AbstractInterface;
 import org.freedesktop.dbus.messages.DBusSignal;
-import org.kde.KWalletIface;
+import org.kde.KWallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class KDEWallet extends Messaging implements KWalletIface, AutoCloseable {
+public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     private final Logger log = LoggerFactory.getLogger(KDEWallet.class);
     private DBusConnection connection;
 
     public static final List<Class<? extends DBusSignal>> signals = Arrays.asList(
-            ApplicationDisconnected.class,
-            FolderUpdated.class,
-            FolderListUpdated.class,
-            AbstractInterface.WalletClosed.class,
-            AllWalletsClosed.class,
-            WalletClosed.class,
-            WalletDeleted.class,
-            WalletAsyncOpened.class,
-            WalletOpened.class,
-            WalletCreated.class,
-            WalletListDirty.class);
+            applicationDisconnected.class,
+            folderUpdated.class,
+            folderListUpdated.class,
+            AbstractInterface.walletClosed.class,
+            allWalletsClosed.class,
+            walletClosed.class,
+            walletDeleted.class,
+            walletAsyncOpened.class,
+            walletOpened.class,
+            walletCreated.class,
+            walletListDirty.class);
 
     public KDEWallet(DBusConnection connection) {
         super(connection,
@@ -43,8 +43,8 @@ public class KDEWallet extends Messaging implements KWalletIface, AutoCloseable 
     @Override
     public boolean isEnabled() {
         try {
-            org.kde.KWalletIface kwallet = connection.getRemoteObject("org.kde.kwalletd5",
-                    "/modules/kwalletd5", org.kde.KWalletIface.class);
+            connection.getRemoteObject("org.kde.kwalletd5",
+                    "/modules/kwalletd5", KWallet.class);
             log.info("Kwallet daemon is available.");
             return true;
         } catch (DBusException e) {
