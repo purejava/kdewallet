@@ -33,7 +33,7 @@ public class KDEWalletTest {
     @DisplayName("Checking availability of kwallet daemon...")
     public void isEnabled() {
         try {
-            KWallet kwallet = context.connection.getRemoteObject("org.kde.kwalletd5",
+            context.connection.getRemoteObject("org.kde.kwalletd5",
                     "/modules/kwalletd5", KWallet.class);
             log.info("Kwallet daemon is available.");
         } catch (DBusException e) {
