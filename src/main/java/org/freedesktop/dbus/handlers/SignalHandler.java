@@ -104,7 +104,7 @@ public class SignalHandler implements DBusSigHandler {
             KWallet.applicationDisconnected ad = (KWallet.applicationDisconnected) s;
             log.info("KWallet.applicationDisconnected: " + ad.application + " / "+ ad.wallet);
         } else if (s instanceof KWallet.walletListDirty) {
-            log.info("KWallet.walletListDirty: " + s.getPath());
+            log.debug("KWallet.walletListDirty: " + s.getPath());
         } else if (s instanceof KWallet.walletCreated) {
             KWallet.walletCreated wc = (KWallet.walletCreated) s;
             log.info("KWallet.walletCreated: " + wc.wallet);
