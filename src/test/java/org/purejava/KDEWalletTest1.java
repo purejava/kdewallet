@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class KDEWalletTest1 {
-    private final Logger log = LoggerFactory.getLogger(KDEWalletTest.class);
+    private final Logger log = LoggerFactory.getLogger(KDEWalletTest1.class);
     private Context context;
 
     @BeforeEach
