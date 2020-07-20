@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Context {
 
-    public Logger log;
+    private Logger log;
 
     public DBusConnection connection = null;
 
@@ -34,29 +34,4 @@ public class Context {
             log.error(e.toString(), e.getCause());
         }
     }
-
-    public static String label(String name, String msg) {
-        return name + ": \"" + msg + "\"";
-    }
-
-    public static String label(String name, int number) {
-        return name + ": " + number;
-    }
-
-    public static String label(String name, long number) {
-        return name + ": " + number;
-    }
-
-    public static String label(String name, BigInteger number) {
-        return name + ": " + number;
-    }
-
-    public static String label(String name, byte[] bytes) {
-        return name + ": " + Arrays.toString(bytes);
-    }
-
-    public static String label(String name, List list) {
-        return name + ": " + Arrays.toString(list.toArray());
-    }
-
 }

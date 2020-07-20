@@ -33,10 +33,10 @@ public class KDEWalletTest2 {
         int wId = 0;
         String appid = "Tester";
         kwallet.openAsync(wallet, wId, appid, false);
-        kwallet.getSignalHandler().await(KWallet.walletAsyncOpened.class, Static.ObjectPaths.SECRETS, () -> {
+        kwallet.getSignalHandler().await(KWallet.walletAsyncOpened.class, Static.ObjectPaths.KWALLETD5, () -> {
             return null;
         });
-        int handle = kwallet.getSignalHandler().getLastHandledSignal(KWallet.walletAsyncOpened.class, Static.ObjectPaths.SECRETS).handle;
+        int handle = kwallet.getSignalHandler().getLastHandledSignal(KWallet.walletAsyncOpened.class, Static.ObjectPaths.KWALLETD5).handle;
         assertTrue(handle > 0);
         if (handle > 0) log.info("Wallet " + "'" + Static.DEFAULT_WALLET + "' successfully opened.");
         if (handle > 0) log.info("Received handle: " + handle + ".");

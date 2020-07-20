@@ -10,12 +10,12 @@ import java.util.List;
 
 public abstract class Messaging {
 
-    protected DBusConnection connection;
-    protected MessageHandler msg;
-    protected SignalHandler sh = SignalHandler.getInstance();
-    protected String serviceName;
-    protected String objectPath;
-    protected String interfaceName;
+    private DBusConnection connection;
+    private MessageHandler msg;
+    private SignalHandler sh = SignalHandler.getInstance();
+    private String serviceName;
+    private String objectPath;
+    private String interfaceName;
 
     public Messaging(DBusConnection connection, List<Class<? extends DBusSignal>> signals,
                      String serviceName, String objectPath, String interfaceName) {
