@@ -6,6 +6,7 @@ import org.kde.KWallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class KDEWalletTest2 {
@@ -33,9 +34,7 @@ public class KDEWalletTest2 {
         int wId = 0;
         String appid = "Tester";
         kwallet.openAsync(wallet, wId, appid, false);
-        kwallet.getSignalHandler().await(KWallet.walletAsyncOpened.class, Static.ObjectPaths.KWALLETD5, () -> {
-            return null;
-        });
+        kwallet.getSignalHandler().await(KWallet.walletAsyncOpened.class, Static.ObjectPaths.KWALLETD5, () -> null);
         int handle = kwallet.getSignalHandler().getLastHandledSignal(KWallet.walletAsyncOpened.class, Static.ObjectPaths.KWALLETD5).handle;
         assertTrue(handle > 0);
         if (handle > 0) log.info("Wallet " + "'" + Static.DEFAULT_WALLET + "' successfully opened.");
@@ -47,8 +46,10 @@ public class KDEWalletTest2 {
         boolean removed = kwallet.removeFolder(handle, folder, appid);
         assertTrue(removed);
         log.info("Folder '" + folder + "' successfully deleted.");
-        int closed = kwallet.close(wallet, false);
-        assertTrue(closed != -1);
-        log.info("Wallet '" + Static.DEFAULT_WALLET + "' with handle '" + handle + "' successfully closed.");
+        kwallet.close(handle, true, appid);
+        kwallet.getSignalHandler().await(KWallet.walletClosedInt.class, Static.ObjectPaths.KWALLETD5, () -> null);
+        int close_handle = kwallet.getSignalHandler().getLastHandledSignal(KWallet.walletClosedInt.class, Static.ObjectPaths.KWALLETD5).handle;
+        assertEquals(handle, close_handle);
+        log.info("Wallet '" + Static.DEFAULT_WALLET + "' with handle '" + close_handle + "' successfully closed.");
     }
 }
