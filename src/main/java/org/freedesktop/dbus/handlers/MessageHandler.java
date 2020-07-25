@@ -1,6 +1,6 @@
 package org.freedesktop.dbus.handlers;
 
-import org.freedesktop.dbus.Static;
+import org.kde.Static;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.messages.MethodCall;

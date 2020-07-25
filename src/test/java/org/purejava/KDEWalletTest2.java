@@ -1,6 +1,6 @@
 package org.purejava;
 
-import org.freedesktop.dbus.Static;
+import org.kde.Static;
 import org.junit.jupiter.api.*;
 import org.kde.KWallet;
 import org.slf4j.Logger;
@@ -15,7 +15,6 @@ public class KDEWalletTest2 {
 
     @BeforeEach
     public void beforeEach(TestInfo info) {
-        log.info(info.getDisplayName());
         context = new Context(log);
         context.ensureService();
     }

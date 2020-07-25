@@ -1,6 +1,6 @@
 package org.purejava;
 
-import org.freedesktop.dbus.Static;
+import org.kde.Static;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.junit.jupiter.api.*;
 import org.kde.KWallet;
@@ -18,7 +18,6 @@ public class KDEWalletTest {
 
     @BeforeEach
     public void beforeEach(TestInfo info) {
-        log.info(info.getDisplayName());
         context = new Context(log);
         context.ensureService();
     }

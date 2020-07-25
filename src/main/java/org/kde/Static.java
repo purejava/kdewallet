@@ -1,4 +1,7 @@
-package org.freedesktop.dbus;
+package org.kde;
+
+import org.freedesktop.dbus.DBusPath;
+import org.freedesktop.dbus.ObjectPath;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -9,16 +12,7 @@ public class Static {
     public static final String DEFAULT_WALLET = "kdewallet";
 
     public static class DBus {
-        public static class Service {
-            public static final String DBUS = "org.freedesktop.DBus";
-        }
-
-        public static class ObjectPaths {
-            public static final String DBUS = "/org/freedesktop/DBus";
-        }
-
         public static class Interfaces {
-            public static final String DBUS = "org.freedesktop.DBus";
             public static final String DBUS_PROPERTIES = "org.freedesktop.DBus.Properties";
         }
     }

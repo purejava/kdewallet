@@ -1,14 +1,14 @@
 package org.freedesktop.dbus.handlers;
 
 import org.freedesktop.dbus.ObjectPath;
-import org.freedesktop.dbus.Static;
+import org.kde.Static;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.messages.DBusSignal;
 import org.freedesktop.dbus.types.Variant;
 
 import java.util.List;
 
-public abstract class Messaging {
+abstract public class Messaging {
 
     private DBusConnection connection;
     private MessageHandler msg;
