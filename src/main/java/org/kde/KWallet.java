@@ -11,6 +11,12 @@ import java.util.List;
 public interface KWallet extends DBusInterface {
 
     public static class walletListDirty extends DBusSignal {
+        /**
+         * A wallet was modified, but not yet saved to disc.
+         *
+         * @param path The path to the object this is emitted from.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public walletListDirty(String path) throws DBusException {
             super(path);
         }
@@ -19,6 +25,13 @@ public interface KWallet extends DBusInterface {
     public static class walletCreated extends DBusSignal {
         public final String wallet;
 
+        /**
+         * A new wallet was created.
+         *
+         * @param path   The path to the object this is emitted from.
+         * @param wallet The wallet that has been created.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public walletCreated(String path, String wallet) throws DBusException {
             super(path, wallet);
             this.wallet = wallet;
@@ -28,6 +41,13 @@ public interface KWallet extends DBusInterface {
     public static class walletOpened extends DBusSignal {
         public final String wallet;
 
+        /**
+         * A wallet was opened.
+         *
+         * @param path   The path to the object this is emitted from.
+         * @param wallet The wallet that has been opened.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public walletOpened(String path, String wallet) throws DBusException {
             super(path, wallet);
             this.wallet = wallet;
@@ -38,6 +58,14 @@ public interface KWallet extends DBusInterface {
         public final int tId;
         public final int handle;
 
+        /**
+         * A wallet was opened asynchronously.
+         *
+         * @param path   The path to the object this is emitted from.
+         * @param tId    Sequential TransactionID.
+         * @param handle Handle to the wallet.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public walletAsyncOpened(String path, int tId, int handle) throws DBusException {
             super(path, tId, handle);
             this.tId = tId;
@@ -48,6 +76,13 @@ public interface KWallet extends DBusInterface {
     public static class walletDeleted extends DBusSignal {
         public final String wallet;
 
+        /**
+         * A wallet was deleted.
+         *
+         * @param path   The path to the object this is emitted from.
+         * @param wallet The wallet that has been deleted.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public walletDeleted(String path, String wallet) throws DBusException {
             super(path, wallet);
             this.wallet = wallet;
@@ -57,6 +92,13 @@ public interface KWallet extends DBusInterface {
     public static class walletClosed extends DBusSignal {
         public final String wallet;
 
+        /**
+         * A wallet was closed.
+         *
+         * @param path   The path to the object this is emitted from.
+         * @param wallet The wallet that has been closed.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public walletClosed(String path, String wallet) throws DBusException {
             super(path, wallet);
             this.wallet = wallet;
@@ -67,6 +109,13 @@ public interface KWallet extends DBusInterface {
     public static class walletClosedInt extends DBusSignal {
         public final int handle;
 
+        /**
+         * A wallet was closed.
+         *
+         * @param path   The path to the object this is emitted from.
+         * @param handle Handle to the wallet.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public walletClosedInt(String path, int handle) throws DBusException {
             super(path, handle);
             this.handle = handle;
@@ -74,6 +123,12 @@ public interface KWallet extends DBusInterface {
     }
 
     public static class allWalletsClosed extends DBusSignal {
+        /**
+         * All wallets were closed.
+         *
+         * @param path The path to the object this is emitted from.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public allWalletsClosed(String path) throws DBusException {
             super(path);
         }
@@ -82,6 +137,13 @@ public interface KWallet extends DBusInterface {
     public static class folderListUpdated extends DBusSignal {
         public final String wallet;
 
+        /**
+         * The list of folders contained in a wallet was updated.
+         *
+         * @param path   The path to the object this is emitted from.
+         * @param wallet The wallet in which the list of folders has been updated.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public folderListUpdated(String path, String wallet) throws DBusException {
             super(path, wallet);
             this.wallet = wallet;
@@ -92,6 +154,14 @@ public interface KWallet extends DBusInterface {
         public final String a;
         public final String b;
 
+        /**
+         * The content of a folder in a wallet was updated.
+         *
+         * @param path The path to the object this is emitted from.
+         * @param a    The wallet that contains the folder.
+         * @param b    The folder whose content has been updated.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public folderUpdated(String path, String a, String b) throws DBusException {
             super(path, a, b);
             this.a = a;
@@ -103,6 +173,14 @@ public interface KWallet extends DBusInterface {
         public final String wallet;
         public final String application;
 
+        /**
+         * An application was disconnected from a wallet.
+         *
+         * @param path        The path to the object this is emitted from.
+         * @param wallet      The wallet the application has been disconnected from.
+         * @param application The application that has been disconnected.
+         * @throws DBusException Could not communicate properly with the D-Bus.
+         */
         public applicationDisconnected(String path, String wallet, String application) throws DBusException {
             super(path, wallet, application);
             this.wallet = wallet;
