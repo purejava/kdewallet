@@ -88,6 +88,9 @@ public class SignalHandler implements DBusSigHandler {
         } else if (s instanceof KWallet.walletClosedInt) {
             KWallet.walletClosedInt wc = (KWallet.walletClosedInt) s;
             log.info("KWallet.walletClosedInt: " + wc.handle);
+        } else if (s instanceof KWallet.walletClosed) {
+            KWallet.walletClosed wc = (KWallet.walletClosed) s;
+            log.info("KWallet.walletClosed: " + wc.wallet);
         } else if (s instanceof KWallet.allWalletsClosed) {
             log.info("KWallet.allWalletsClosed: " + s.getPath());
         } else if (s instanceof KWallet.folderListUpdated) {
