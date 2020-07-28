@@ -81,7 +81,7 @@ public class SignalHandler implements DBusSigHandler {
             log.info("KWallet.walletOpened: " + wo.wallet);
         } else if (s instanceof KWallet.walletAsyncOpened) {
             KWallet.walletAsyncOpened wo = (KWallet.walletAsyncOpened) s;
-            log.info("KWallet.walletAsyncOpened: " + wo.tId + " / " + wo.handle);
+            log.info("KWallet.walletAsyncOpened: {TransactionID: " + wo.tId + ", handle: " + wo.handle + "}");
         } else if (s instanceof KWallet.walletDeleted) {
             KWallet.walletDeleted wd = (KWallet.walletDeleted) s;
             log.info("KWallet.walletDeleted: " + wd.wallet);
@@ -98,10 +98,10 @@ public class SignalHandler implements DBusSigHandler {
             log.info("KWallet.folderListUpdated: " + flu.wallet);
         } else if (s instanceof KWallet.folderUpdated) {
             KWallet.folderUpdated fu = (KWallet.folderUpdated) s;
-            log.info("KWallet.folderUpdated: " + fu.a + " / " + fu.b);
+            log.info("KWallet.folderUpdated: {wallet: " + fu.a + ", folder: " + fu.b + "}");
         } else if (s instanceof KWallet.applicationDisconnected) {
             KWallet.applicationDisconnected ad = (KWallet.applicationDisconnected) s;
-            log.info("KWallet.applicationDisconnected: " + ad.application + " / "+ ad.wallet);
+            log.info("KWallet.applicationDisconnected: {application: " + ad.application + ", wallet: " + ad.wallet + "}");
         } else if (s instanceof KWallet.walletListDirty) {
             log.debug("KWallet.walletListDirty: " + s.getPath());
         } else if (s instanceof KWallet.walletCreated) {
