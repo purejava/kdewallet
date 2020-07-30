@@ -407,7 +407,7 @@ public interface KWallet extends DBusInterface {
      * @param appid     AppID of the app to access the wallet.
      * @return 0 if storing the secret was successful, -1 otherwise.
      */
-    abstract public int writeEntry(int handle, String folder, String key, List<Byte> value, int entryType, String appid);
+    abstract public int writeEntry(int handle, String folder, String key, byte[] value, int entryType, String appid);
 
     /**
      * Store a secret of type stream in the wallet. An existing secret gets overwritten.
@@ -419,7 +419,7 @@ public interface KWallet extends DBusInterface {
      * @param appid     AppID of the app to access the wallet.
      * @return 0 if storing the secret was successful, -1 otherwise.
      */
-    abstract public int writeEntry(int handle, String folder, String key, List<Byte> value, String appid);
+    abstract public int writeEntry(int handle, String folder, String key, byte[] value, String appid);
 
     abstract public int writeMap(int handle, String folder, String key, List<Byte> value, String appid);
 

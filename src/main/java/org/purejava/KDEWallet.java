@@ -178,13 +178,13 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     }
 
     @Override
-    public int writeEntry(int handle, String folder, String key, List<Byte> value, int entryType, String appid) {
+    public int writeEntry(int handle, String folder, String key, byte[] value, int entryType, String appid) {
         Object[] response = send("writeEntry", "issayis", handle, folder, key, value, entryType, appid);
         return (int) response[0];
     }
 
     @Override
-    public int writeEntry(int handle, String folder, String key, List<Byte> value, String appid) {
+    public int writeEntry(int handle, String folder, String key, byte[] value, String appid) {
         Object[] response = send("writeEntry", "issays", handle, folder, key, value, appid);
         return (int) response[0];
     }
