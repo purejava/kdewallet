@@ -134,7 +134,8 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public boolean hasFolder(int handle, String folder, String appid) {
-        return false;
+        Object[] response = send("hasFolder", "iss", handle, folder, appid);
+        return (boolean) response[0];
     }
 
     @Override
@@ -162,8 +163,9 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     }
 
     @Override
-    public List<Byte> readMap(int handle, String folder, String key, String appid) {
-        return null;
+    public byte[] readMap(int handle, String folder, String key, String appid) {
+        Object[] response = send("readMap", "isss", handle, folder, key, appid);
+        return (byte[]) response[0];
     }
 
     @Override
@@ -174,7 +176,8 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public int renameEntry(int handle, String folder, String oldName, String newName, String appid) {
-        return 0;
+        Object[] response = send("renameEntry", "issss", handle, folder, oldName, newName, appid);
+        return (int) response[0];
     }
 
     @Override
@@ -190,8 +193,9 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     }
 
     @Override
-    public int writeMap(int handle, String folder, String key, List<Byte> value, String appid) {
-        return 0;
+    public int writeMap(int handle, String folder, String key, byte[] value, String appid) {
+        Object[] response = send("writeMap", "issays", handle, folder, key, value, appid);
+        return (int) response[0];
     }
 
     @Override

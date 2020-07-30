@@ -62,6 +62,11 @@ public class KDEWalletTest1 {
         byte[] entry = (byte[]) response[0];
         assertEquals(new String(entry), "password");
         log.info("Raw data from secret successfully retrieved: " + new String(entry) + ".");
+        String newName = "newName";
+        response = kwallet.send("renameEntry", "issss", handle, folder, key, newName, appid);
+        int renaming = (int) response[0];
+        assertTrue(renaming != -1);
+        log.info("Folder successfully renamed to: '" + newName + "'.");
         response = kwallet.send("removeFolder", "iss", handle, folder, appid);
         boolean folderRemoved = (boolean) response[0];
         assertTrue(folderRemoved);
