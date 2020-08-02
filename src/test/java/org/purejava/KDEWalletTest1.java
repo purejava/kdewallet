@@ -1,13 +1,9 @@
 package org.purejava;
 
-import org.kde.Static;
-import org.freedesktop.dbus.exceptions.DBusException;
 import org.junit.jupiter.api.*;
-import org.kde.KWallet;
+import org.kde.Static;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

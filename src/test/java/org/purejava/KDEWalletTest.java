@@ -1,9 +1,9 @@
 package org.purejava;
 
 import org.freedesktop.dbus.exceptions.DBusException;
-import org.kde.Static;
 import org.junit.jupiter.api.*;
 import org.kde.KWallet;
+import org.kde.Static;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
