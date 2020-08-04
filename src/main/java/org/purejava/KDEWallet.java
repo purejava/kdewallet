@@ -63,7 +63,8 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public int openPath(String path, long wId, String appid) {
-        return 0;
+        Object[] response = send("openPath", "sxs", path, wId, appid);
+        return (int) response[0];
     }
 
     @Override
@@ -74,7 +75,8 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public int openPathAsync(String path, long wId, String appid, boolean handleSession) {
-        return 0;
+        Object[] response = send("openPathAsync", "sxsb", path, wId, appid, handleSession);
+        return (int) response[0];
     }
 
     @Override
@@ -91,12 +93,13 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public void sync(int handle, String appid) {
-
+        send("sync", "is", handle, appid);
     }
 
     @Override
     public int deleteWallet(String wallet) {
-        return 0;
+        Object[] response = send("deleteWallet", "s", wallet);
+        return (int) response[0];
     }
 
     @Override
@@ -113,12 +116,13 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public List<String> users(String wallet) {
-        return null;
+        Object[] response = send("users", "s", wallet);
+        return (List<String>) response[0];
     }
 
     @Override
     public void changePassword(String wallet, long wId, String appid) {
-
+        send("changePassword", "sxs", wallet, wId, appid);
     }
 
     @Override
@@ -129,7 +133,8 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public List<String> folderList(int handle, String appid) {
-        return null;
+        Object[] response = send("folderList", "is", handle, appid);
+        return (List<String>) response[0];
     }
 
     @Override
@@ -224,39 +229,47 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public boolean disconnectApplication(String wallet, String application) {
-        return false;
+        Object[] response = send("disconnectApplication", "ss", wallet, application);
+        return (boolean) response[0];
     }
 
     @Override
     public void reconfigure() {
+        send("reconfigure");
     }
 
     @Override
     public boolean folderDoesNotExist(String wallet, String folder) {
-        return false;
+        Object[] response = send("folderDoesNotExist", "ss", wallet, folder);
+        return (boolean) response[0];
     }
 
     @Override
     public boolean keyDoesNotExist(String wallet, String folder, String key) {
-        return false;
+        Object[] response = send("keyDoesNotExist", "sss", wallet, folder, key);
+        return (boolean) response[0];
     }
 
     @Override
     public void closeAllWallets() {
+        send("closeAllWallets");
     }
 
     @Override
     public String networkWallet() {
-        return null;
+        Object[] response = send("networkWallet");
+        return (String) response[0];
     }
 
     @Override
     public String localWallet() {
-        return null;
+        Object[] response = send("localWallet");
+        return (String) response[0];
     }
 
     @Override
-    public void pamOpen(String wallet, List<Byte> passwordHash, int sessionTimeout) {
+    public void pamOpen(String wallet, byte[] passwordHash, int sessionTimeout) {
+        send("pamOpen", "sayi", wallet, passwordHash, sessionTimeout);
     }
 
     @Override
@@ -266,7 +279,7 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public String getObjectPath() {
-        return null;
+        return super.getObjectPath();
     }
 
     public void close() {

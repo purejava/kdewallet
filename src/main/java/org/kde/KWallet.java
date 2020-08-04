@@ -514,12 +514,35 @@ public interface KWallet extends DBusInterface {
      */
     abstract public boolean disconnectApplication(String wallet, String application);
 
+    /**
+     * Read kwalletd configuration and configure daemon accordingly.
+     *
+     */
     abstract public void reconfigure();
 
+    /**
+     * Determine, if the folder does not exist in the wallet.
+     *
+     * @param wallet The wallet to look into.
+     * @param folder The folder to look for.
+     * @return True, if the folder does not exist, false otherwise.
+     */
     abstract public boolean folderDoesNotExist(String wallet, String folder);
 
+    /**
+     * Determine, if the identifier for a secret does not exist in the wallet.
+     *
+     * @param wallet The wallet to look into.
+     * @param folder The folder to look into.
+     * @param key    The identifier to look for.
+     * @return True, if the identifier does not exist, false otherwise.
+     */
     abstract public boolean keyDoesNotExist(String wallet, String folder, String key);
 
+    /**
+     * Close all wallets.
+     *
+     */
     abstract public void closeAllWallets();
 
     /**
@@ -536,6 +559,15 @@ public interface KWallet extends DBusInterface {
      */
     abstract public String localWallet();
 
+    /**
+     * Open a wallet using a pre-hashed password. This is only useful in cooperation
+     * with the kwallet PAM module. It's also less secure than manually entering the
+     * password as the password hash is transmitted using D-Bus.
+     *
+     * @param wallet         The wallet to be opened.
+     * @param passwordHash   The pre-hashed password.
+     * @param sessionTimeout Timeout after which the wallet gets closed.
+     */
     @MethodNoReply
-    abstract public void pamOpen(String wallet, List<Byte> passwordHash, int sessionTimeout);
+    abstract public void pamOpen(String wallet, byte[] passwordHash, int sessionTimeout);
 }
