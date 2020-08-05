@@ -74,7 +74,7 @@ The complete API is documented in the [Wiki](https://github.com/purejava/kdewall
 
 Pay attention to the walletClosed signals.
 
-There are two walletClosed signals, that get emitted every time a wallet is closed:
+There are two walletClosed signals, that get emitted every time a wallet is closed. They are defined as follows:
 ```xml
 <signal name="walletClosed">
   <arg name="wallet" type="s" direction="out"/>
@@ -84,7 +84,7 @@ There are two walletClosed signals, that get emitted every time a wallet is clos
 </signal>
 ```
 
-On closing a wallet, both signals get emitted:
+This is what dbus-monitor tells about them:
 ```log
 signal time=1594906367.214555 sender=:1.79 -> destination=(null destination) serial=16981 path=/modules/kwalletd5; interface=org.kde.KWallet; member=walletClosed
    int32 1765833520

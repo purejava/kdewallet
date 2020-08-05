@@ -55,7 +55,7 @@ public class KDEWalletTest {
     @Test
     @Order(3)
     @DisplayName("Testing create folder functionality in locked kdewallet...")
-    void testWriteEntry() {
+    void testCreateFolder() {
         KDEWallet kwallet = new KDEWallet(context.connection);
         String wallet = Static.DEFAULT_WALLET;
         int wId = 0;
