@@ -1,4 +1,6 @@
 # kdewallet
+![KWallet](KWallet.png)
+
 [![Java CI with Maven](https://github.com/purejava/kdewallet/workflows/Java%20CI%20with%20Maven/badge.svg)](https://github.com/purejava/kdewallet/actions?query=workflow%3A%22Java+CI+with+Maven%22)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/da634cf61b71475293312f9bfadafde7)](https://www.codacy.com/manual/purejava/kdewallet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=purejava/kdewallet&amp;utm_campaign=Badge_Grade)
 [![Maven Central](https://img.shields.io/maven-central/v/org.purejava/kdewallet.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.purejava%22%20AND%20a:%22kdewallet%22)
