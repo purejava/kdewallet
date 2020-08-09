@@ -11,7 +11,7 @@
 
     <name>kdewallet</name>
     <description>
-        A Java library for storing secrets on linux in a KDE wallet over D-Bus.
+        A Java library for storing secrets on linux in a KDE wallet over D-Bus, implements kwallet.
     </description>
     <url>https://github.com/purejava/kdewallet</url>
 
