@@ -150,11 +150,12 @@ public class SignalHandler implements DBusSigHandler {
     }
 
     public <S extends DBusSignal> S await(Class<S> s, String path, Callable action) {
-        final Duration timeout = Duration.ofSeconds(300);
+        final Duration timeout = Duration.ofSeconds(120);
         return await(s, path, action, timeout);
     }
 
     public <S extends DBusSignal> S await(Class<S> s, String path, Callable action, Duration timeout) {
+        final int init = getCount();
 
         try {
             action.call();
@@ -162,18 +163,18 @@ public class SignalHandler implements DBusSigHandler {
             log.error(e.toString(), e.getCause());
         }
 
-        int init = getHandledSignals(s, path).size();
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        log.info("await signal " + s.getName() + "(" + path + ") within " + timeout.getSeconds() + " seconds.");
+        log.info("Await signal " + s.getName() + "(" + path + ") within " + timeout.getSeconds() + " seconds.");
 
         final Future<S> handler = executor.submit((Callable) () -> {
             int await = init;
             List<S> signals = null;
             while (await == init) {
-                Thread.sleep(50L);
+                if (Thread.currentThread().isInterrupted()) return null;
+                Thread.currentThread().sleep(50L);
                 signals = getHandledSignals(s, path);
-                await = signals.size();
+                await = getCount();
             }
             if (!signals.isEmpty()) {
                 return signals.get(0);
