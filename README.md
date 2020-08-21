@@ -97,9 +97,6 @@ You can either listen on / catch walletClosed (contains the name of the closed w
 
 See [issue #110 @ dbus-java](https://github.com/hypfvieh/dbus-java/issues/110).
 
-# To Do
-The handling of D-Bus signals needs some improvements and robustness added.
-
 # Thank you
 Thanks to David M., who wrote an improved version of [Java DBus](https://github.com/hypfvieh/dbus-java) library provided by freedesktop.org.
 Thanks to Sebastian Wiesendahl, who implemented the original core messaging interface to DBus in his [secret-service](https://github.com/swiesend/secret-service) library.
