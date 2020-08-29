@@ -74,9 +74,9 @@ Please note, that order is important here: you cannot use the `getLastHandledSig
 
 The complete API is documented in the [Wiki](https://github.com/purejava/kdewallet/wiki/Home).
 
-Pay attention to the walletClosed signals.
+Pay attention to the `walletClosed` signals.
 
-There are two walletClosed signals, that get emitted every time a wallet is closed. They are defined as follows:
+There are two `walletClosed` signals, that get emitted every time a wallet is closed. They are defined as follows:
 ```xml
 <signal name="walletClosed">
   <arg name="wallet" type="s" direction="out"/>
@@ -93,7 +93,7 @@ signal time=1594906367.214555 sender=:1.79 -> destination=(null destination) ser
 signal time=1594906367.214570 sender=:1.79 -> destination=(null destination) serial=16982 path=/modules/kwalletd5; interface=org.kde.KWallet; member=walletClosed
    string "kdewallet"
 ```
-You can either listen on / catch walletClosed (contains the name of the closed wallet) or walletClosed (contains the handle of the closed wallet), but not both at the same time.
+You can either listen on / catch `walletClosed` (contains the name of the closed wallet) or `walletClosedInt` (contains the handle of the closed wallet), but not both at the same time.
 
 See [issue #110 @ dbus-java](https://github.com/hypfvieh/dbus-java/issues/110).
 
