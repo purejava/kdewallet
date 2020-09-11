@@ -1,16 +1,19 @@
 package org.purejava;
 
-import org.kde.Static;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.handlers.Messaging;
 import org.freedesktop.dbus.messages.DBusSignal;
+import org.freedesktop.dbus.types.Variant;
 import org.kde.KWallet;
+import org.kde.Static;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
@@ -177,6 +180,30 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     public String readPassword(int handle, String folder, String key, String appid) {
         Object[] response = send("readPassword", "isss", handle, folder, key, appid);
         return (String) response[0];
+    }
+
+    @Override
+    public Map<String, byte[]> entriesList(int handle, String folder, String appid) {
+        Object[] response = send("entriesList", "iss", handle, folder, appid);
+        Map<String, Variant> map = (Map<String, Variant>) response[0];
+        return map.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> (byte[]) e.getValue().getValue()));
+    }
+
+    @Override
+    public Map<String, byte[]> mapList(int handle, String folder, String appid) {
+        Object[] response = send("mapList", "iss", handle, folder, appid);
+        Map<String, Variant> map = (Map<String, Variant>) response[0];
+        return map.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> (byte[]) e.getValue().getValue()));
+    }
+
+    @Override
+    public Map<String, String> passwordList(int handle, String folder, String appid) {
+        Object[] response = send("passwordList", "iss", handle, folder, appid);
+        Map<String, Variant> map = (Map<String, Variant>) response[0];
+        return map.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> (String) e.getValue().getValue()));
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.freedesktop.dbus.interfaces.DBusInterface;
 import org.freedesktop.dbus.messages.DBusSignal;
 
 import java.util.List;
+import java.util.Map;
 
 public interface KWallet extends DBusInterface {
 
@@ -410,6 +411,36 @@ public interface KWallet extends DBusInterface {
 
     abstract public Map<String, Variant> readPasswordList(int handle, String folder, String key, String appid);
     */
+
+    /**
+     * Get a list of all the secrets in the given folder.
+     *
+     * @param handle Handle to the wallet to read from.
+     * @param folder Folder that contains the secret(s).
+     * @param appid  AppID of the app to access the wallet.
+     * @return Map of secrets of all types  in the folder.
+     */
+    abstract public Map<String,byte[]> entriesList(int handle, String folder, String appid);
+
+    /**
+     * Get a list of all the secrets of type map in the given folder.
+     *
+     * @param handle Handle to the wallet to read from.
+     * @param folder Folder that contains the secret(s).
+     * @param appid  AppID of the app to access the wallet.
+     * @return Map of maps in the folder.
+     */
+    abstract public Map<String, byte[]> mapList(int handle, String folder, String appid);
+
+    /**
+     * Get a list of all the secrets of type password in the given folder.
+     *
+     * @param handle Handle to the wallet to read from.
+     * @param folder Folder that contains the secret(s).
+     * @param appid  AppID of the app to access the wallet.
+     * @return Map of passwords in the folder.
+     */
+    abstract public Map<String,String> passwordList(int handle, String folder, String appid);
 
     /**
      * Rename an entry that contains a secret within a folder.
