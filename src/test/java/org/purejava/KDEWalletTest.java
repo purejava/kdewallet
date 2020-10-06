@@ -1,5 +1,6 @@
 package org.purejava;
 
+import org.freedesktop.DBus;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.junit.jupiter.api.*;
 import org.kde.KWallet;
@@ -7,6 +8,7 @@ import org.kde.Static;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,9 +34,9 @@ public class KDEWalletTest {
     @DisplayName("Checking availability of kwallet daemon...")
     public void isEnabled() {
         try {
-            context.connection.getRemoteObject("org.kde.kwalletd5",
-                    "/modules/kwalletd5", KWallet.class);
-            log.info("Kwallet daemon is available.");
+            DBus bus = context.connection.getRemoteObject("org.freedesktop.DBus",
+                    "/org/freedesktop/DBus", DBus.class);
+            assertTrue (Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd5"));
         } catch (DBusException e) {
             log.error(e.toString(), e.getCause());
         }

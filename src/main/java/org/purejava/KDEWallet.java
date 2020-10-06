@@ -1,5 +1,6 @@
 package org.purejava;
 
+import org.freedesktop.DBus;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.handlers.Messaging;
@@ -48,10 +49,14 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     @Override
     public boolean isEnabled() {
         try {
-            connection.getRemoteObject("org.kde.kwalletd5",
-                    "/modules/kwalletd5", KWallet.class);
-            log.info("Kwallet daemon is available.");
-            return true;
+            DBus bus = connection.getRemoteObject("org.freedesktop.DBus",
+                    "/org/freedesktop/DBus", DBus.class);
+            if (Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd5")) {
+                log.debug("Kwallet daemon is available.");
+                return true;
+            } else {
+                return  false;
+            }
         } catch (DBusException e) {
             log.error(e.toString(), e.getCause());
             return false;
