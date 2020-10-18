@@ -1,7 +1,9 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+# This workflow will build and deploy a Java project with Maven
+# For more information see:
+# https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+# https://github.com/marketplace/actions/action-maven-publish
 
-name: Java CI with Maven
+name: Build and deploy releases to GitHub
 
 on:
   push:
@@ -14,10 +16,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 1.8
+    - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: 11
     - name: Build with Maven
       run: mvn -B compile --file pom.xml
 
@@ -29,7 +31,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Create Release
+      - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
