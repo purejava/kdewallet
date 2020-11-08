@@ -20,6 +20,8 @@ public class SignalHandler implements DBusSigHandler {
 
     private Logger log = LoggerFactory.getLogger(SignalHandler.class);
 
+    private static SignalHandler instance = new SignalHandler();
+
     private DBusConnection connection = null;
     private List<Class<? extends DBusSignal>> registered = new ArrayList();
     private DBusSignal[] handled = new DBusSignal[250];
@@ -32,7 +34,7 @@ public class SignalHandler implements DBusSigHandler {
     }
 
     public static SignalHandler getInstance() {
-        return SingletonHelper.INSTANCE;
+        return instance;
     }
 
     public void connect(DBusConnection connection, List<Class<? extends DBusSignal>> signals) {
@@ -193,9 +195,5 @@ public class SignalHandler implements DBusSigHandler {
         }
 
         return null;
-    }
-
-    private static class SingletonHelper {
-        private static final SignalHandler INSTANCE = new SignalHandler();
     }
 }
