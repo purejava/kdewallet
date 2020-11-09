@@ -165,10 +165,10 @@ public class SignalHandler implements DBusSigHandler {
     }
 
     public <S extends DBusSignal> S getLastHandledSignal(Class<S> s) {
-        return !getHandledSignals(s).isEmpty() ? getHandledSignals(s).get(0) : null;
+        return getHandledSignals(s).isEmpty() ? null : getHandledSignals(s).get(0);
     }
 
     public <S extends DBusSignal> S getLastHandledSignal(Class<S> s, String path) {
-        return !getHandledSignals(s, path).isEmpty() ? getHandledSignals(s, path).get(0) : null;
+        return getHandledSignals(s, path).isEmpty() ? null : getHandledSignals(s, path).get(0);
     }
 }
