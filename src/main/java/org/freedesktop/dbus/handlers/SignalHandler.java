@@ -10,10 +10,12 @@ import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class SignalHandler implements DBusSigHandler {
@@ -170,5 +172,53 @@ public class SignalHandler implements DBusSigHandler {
 
     public <S extends DBusSignal> S getLastHandledSignal(Class<S> s, String path) {
         return getHandledSignals(s, path).isEmpty() ? null : getHandledSignals(s, path).get(0);
+    }
+
+    @Deprecated
+    public <S extends DBusSignal> S await(Class<S> s, String path, Callable action) {
+        final Duration timeout = Duration.ofSeconds(120);
+        return await(s, path, action, timeout);
+    }
+
+    @Deprecated
+    public <S extends DBusSignal> S await(Class<S> s, String path, Callable action, Duration timeout) {
+        final int init = getCount();
+
+        try {
+            action.call();
+        } catch (Exception e) {
+            log.error(e.toString(), e.getCause());
+        }
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        log.info("Await signal " + s.getName() + "(" + path + ") within " + timeout.getSeconds() + " seconds.");
+
+        final Future<S> handler = executor.submit((Callable) () -> {
+            int await = init;
+            List<S> signals = null;
+            while (await == init) {
+                if (Thread.currentThread().isInterrupted()) return null;
+                Thread.currentThread().sleep(50L);
+                signals = getHandledSignals(s, path);
+                await = getCount();
+            }
+            if (!signals.isEmpty()) {
+                return signals.get(0);
+            } else {
+                return null;
+            }
+        });
+
+        try {
+            return handler.get(timeout.toMillis(), TimeUnit.MILLISECONDS);
+        } catch (TimeoutException | InterruptedException | ExecutionException e) {
+            handler.cancel(true);
+            log.warn(e.toString(), e.getCause());
+        } finally {
+            executor.shutdownNow();
+        }
+
+        return null;
     }
 }
