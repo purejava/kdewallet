@@ -133,7 +133,7 @@ public class SignalHandler implements DBusSigHandler {
             support.firePropertyChange("KWallet.walletCreated", null, wc.wallet);
             log.info("Received signal KWallet.walletCreated: " + wc.wallet);
         } else {
-            log.warn("Handled unknown signal: " + s.getClass().toString() + " {" + s.toString() + "}");
+            log.warn("Received unknown signal: " + s.getClass().toString() + " {" + s.toString() + "}");
         }
     }
 
