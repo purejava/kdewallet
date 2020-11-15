@@ -66,6 +66,7 @@ public class KDEWalletTest implements PropertyChangeListener {
         String appid = "Tester";
         kwallet.getSignalHandler().addPropertyChangeListener(this);
         kwallet.openAsync(wallet, wId, appid, false);
+        log.info("You have 10 seconds to enter the password :)");
         Thread.sleep(10000L); // give me 10 seconds to enter the password
         assertTrue(handle > 0);
         if (handle > 0) log.info("Wallet " + "'" + Static.DEFAULT_WALLET + "' successfully opened.");
