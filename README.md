@@ -19,7 +19,7 @@ Add `kdewallet` as a dependency to your project.
 <dependency>
     <groupId>org.purejava</groupId>
     <artifactId>kdewallet</artifactId>
-    <version>1.1.1</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
@@ -64,38 +64,10 @@ public class App {
 ```
 
 ## Signal handling
-Fetching and handling of D-Bus signals can be done with the `await` method.
-```java
-wallet.openAsync(Static.DEFAULT_WALLET, 0, APP_NAME, false);
-wallet.getSignalHandler().await(KWallet.walletAsyncOpened.class, Static.ObjectPaths.SECRETS, () -> null);
-handle = wallet.getSignalHandler().getLastHandledSignal(KWallet.walletAsyncOpened.class, Static.ObjectPaths.SECRETS).handle;
-```
-Please note, that order is important here: you cannot use the `getLastHandledSignal` method before the `await` method.
+D-Bus signals are emitted on every change to a wallet, e.g. when it's opened asynchronously, closed etc.
+Listening to these signals can be done asynchronously with few effort.
 
-The complete API is documented in the [Wiki](https://github.com/purejava/kdewallet/wiki/Home).
-
-Pay attention to the `walletClosed` signals.
-
-There are two `walletClosed` signals, that get emitted every time a wallet is closed. They are defined as follows:
-```xml
-<signal name="walletClosed">
-  <arg name="wallet" type="s" direction="out"/>
-</signal>
-<signal name="walletClosed">
-  <arg name="handle" type="i" direction="out"/>
-</signal>
-```
-
-This is what dbus-monitor tells about them:
-```log
-signal time=1594906367.214555 sender=:1.79 -> destination=(null destination) serial=16981 path=/modules/kwalletd5; interface=org.kde.KWallet; member=walletClosed
-   int32 1765833520
-signal time=1594906367.214570 sender=:1.79 -> destination=(null destination) serial=16982 path=/modules/kwalletd5; interface=org.kde.KWallet; member=walletClosed
-   string "kdewallet"
-```
-You can either listen on / catch `walletClosed` (contains the name of the closed wallet) or `walletClosedInt` (contains the handle of the closed wallet), but not both at the same time.
-
-See [issue #110 @ dbus-java](https://github.com/hypfvieh/dbus-java/issues/110).
+For the complete API and examples see the [Wiki](https://github.com/purejava/kdewallet/wiki/Home).
 
 # Thank you
 Thanks to David M., who wrote an improved version of [Java DBus](https://github.com/hypfvieh/dbus-java) library provided by freedesktop.org.

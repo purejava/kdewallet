@@ -3,20 +3,22 @@ package org.purejava;
 import org.freedesktop.DBus;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.junit.jupiter.api.*;
-import org.kde.KWallet;
 import org.kde.Static;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class KDEWalletTest {
+public class KDEWalletTest implements PropertyChangeListener {
     private final Logger log = LoggerFactory.getLogger(KDEWalletTest.class);
     private Context context;
+    private int handle = -1;
 
     @BeforeEach
     public void beforeEach(TestInfo info) {
@@ -57,14 +59,15 @@ public class KDEWalletTest {
     @Test
     @Order(3)
     @DisplayName("Testing create folder functionality in locked kdewallet...")
-    void testCreateFolder() {
+    void testCreateFolder() throws InterruptedException {
         KDEWallet kwallet = new KDEWallet(context.connection);
         String wallet = Static.DEFAULT_WALLET;
         int wId = 0;
         String appid = "Tester";
+        kwallet.getSignalHandler().addPropertyChangeListener(this);
         kwallet.openAsync(wallet, wId, appid, false);
-        kwallet.getSignalHandler().await(KWallet.walletAsyncOpened.class, Static.ObjectPaths.KWALLETD5, () -> null);
-        int handle = kwallet.getSignalHandler().getLastHandledSignal(KWallet.walletAsyncOpened.class, Static.ObjectPaths.KWALLETD5).handle;
+        log.info("You have 10 seconds to enter the password :)");
+        Thread.sleep(10000L); // give me 10 seconds to enter the password
         assertTrue(handle > 0);
         if (handle > 0) log.info("Wallet " + "'" + Static.DEFAULT_WALLET + "' successfully opened.");
         if (handle > 0) log.info("Received handle: " + handle + ".");
@@ -75,5 +78,10 @@ public class KDEWalletTest {
         boolean removed = kwallet.removeFolder(handle, folder, appid);
         assertTrue(removed);
         log.info("Folder '" + folder + "' successfully deleted.");
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals("KWallet.walletAsyncOpened")) handle = (int) event.getNewValue();
     }
 }

@@ -1,10 +1,10 @@
 package org.freedesktop.dbus.handlers;
 
-import org.kde.Static;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.messages.MethodCall;
 import org.freedesktop.dbus.types.Variant;
+import org.kde.Static;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,13 +35,20 @@ public class MessageHandler {
                     iface,
                     method, (byte) 0, signature, args);
 
+            if (log.isTraceEnabled()) log.trace(String.valueOf(message));
             connection.sendMessage(message);
 
             org.freedesktop.dbus.messages.Message response = ((MethodCall) message).getReply(2000L);
-            log.trace(response.toString());
+            if (log.isTraceEnabled()) log.trace(String.valueOf(response));
 
             if (response instanceof org.freedesktop.dbus.errors.Error) {
-                throw new DBusException(response.getName() + ": " + response.getParameters()[0]);
+                switch (response.getName()) {
+                    case "org.freedesktop.DBus.Error.NoReply":
+                        log.warn("D-Bus did not reply to the previous method call");
+                        break;
+                    default:
+                        throw new DBusException(response.getName() + ": " + response.getParameters()[0]);
+                }
             }
 
             Object[] parameters = response.getParameters();
