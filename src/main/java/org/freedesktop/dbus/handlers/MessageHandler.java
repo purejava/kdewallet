@@ -35,11 +35,11 @@ public class MessageHandler {
                     iface,
                     method, (byte) 0, signature, args);
 
-            log.trace(String.valueOf(message));
+            if (log.isTraceEnabled()) log.trace(String.valueOf(message));
             connection.sendMessage(message);
 
             org.freedesktop.dbus.messages.Message response = ((MethodCall) message).getReply(2000L);
-            log.trace(String.valueOf(response));
+            if (log.isTraceEnabled()) log.trace(String.valueOf(response));
 
             if (response instanceof org.freedesktop.dbus.errors.Error) {
                 switch (response.getName()) {
