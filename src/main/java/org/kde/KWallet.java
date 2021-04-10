@@ -106,8 +106,7 @@ public interface KWallet extends DBusInterface {
         }
     }
 
-    @DBusMemberName(value = "walletClosed")
-    public static class walletClosedInt extends DBusSignal {
+    public static class walletClosedId extends DBusSignal {
         public final int handle;
 
         /**
@@ -117,7 +116,7 @@ public interface KWallet extends DBusInterface {
          * @param handle Handle to the wallet.
          * @throws DBusException Could not communicate properly with the D-Bus.
          */
-        public walletClosedInt(String path, int handle) throws DBusException {
+        public walletClosedId(String path, int handle) throws DBusException {
             super(path, handle);
             this.handle = handle;
         }

@@ -26,11 +26,8 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
             folderUpdated.class,
             folderListUpdated.class,
             allWalletsClosed.class,
-            walletClosedInt.class,
-            // you can either register walletClosed or walletClosedInt
-            // but not both at at the same time
-            // see https://github.com/hypfvieh/dbus-java/issues/110
-            // walletClosed.class,
+            walletClosedId.class,
+            walletClosed.class,
             walletDeleted.class,
             walletAsyncOpened.class,
             walletOpened.class,

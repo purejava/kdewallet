@@ -102,10 +102,10 @@ public class SignalHandler implements DBusSigHandler {
             KWallet.walletDeleted wd = (KWallet.walletDeleted) s;
             support.firePropertyChange("KWallet.walletDeleted", null, wd.wallet);
             log.info("Received signal KWallet.walletDeleted: " + wd.wallet);
-        } else if (s instanceof KWallet.walletClosedInt) {
-            KWallet.walletClosedInt wc = (KWallet.walletClosedInt) s;
-            support.firePropertyChange("KWallet.walletClosedInt", null, wc.handle);
-            log.info("Received signal KWallet.walletClosedInt: " + wc.handle);
+        } else if (s instanceof KWallet.walletClosedId) {
+            KWallet.walletClosedId wc = (KWallet.walletClosedId) s;
+            support.firePropertyChange("KWallet.walletClosedId", null, wc.handle);
+            log.info("Received signal KWallet.walletClosedId: " + wc.handle);
         } else if (s instanceof KWallet.walletClosed) {
             KWallet.walletClosed wc = (KWallet.walletClosed) s;
             support.firePropertyChange("KWallet.walletClosed", null, wc.wallet);

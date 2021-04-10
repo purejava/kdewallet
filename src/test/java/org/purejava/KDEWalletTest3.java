@@ -35,8 +35,8 @@ public class KDEWalletTest3 {
         String appid = "Tester";
         int handle = kwallet.open(wallet, wId, appid);
         assertTrue(handle > 0);
-        if (handle > 0) log.info("Wallet " + "'" + Static.DEFAULT_WALLET + "' successfully opened.");
-        if (handle > 0) log.info("Received handle: " + handle + ".");
+        log.info("Wallet " + "'" + Static.DEFAULT_WALLET + "' successfully opened.");
+        log.info("Received handle: " + handle + ".");
         String folder = "Test-Folder";
         boolean folderCreated = kwallet.createFolder(handle, folder, appid);
         assertTrue(folderCreated);
@@ -80,8 +80,8 @@ public class KDEWalletTest3 {
         boolean folderRemoved = kwallet.removeFolder(handle, folder, appid);
         assertTrue(folderRemoved);
         log.info("Folder '" + folder + "' successfully deleted.");
-        int walletClosed = kwallet.close(handle, false, appid);
-        assertTrue(walletClosed != -1);
+        int walletClosedId = kwallet.close(handle, false, appid);
+        assertTrue(walletClosedId != -1);
         log.info("Wallet '" + Static.DEFAULT_WALLET + "' with handle '" + handle + "' successfully closed.");
     }
 }
