@@ -19,7 +19,7 @@ Add `kdewallet` as a dependency to your project.
 <dependency>
     <groupId>org.purejava</groupId>
     <artifactId>kdewallet</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
 </dependency>
 ```
 
@@ -74,4 +74,4 @@ Thanks to David M., who wrote an improved version of [Java DBus](https://github.
 Thanks to Sebastian Wiesendahl, who implemented the original core messaging interface to DBus in his [secret-service](https://github.com/swiesend/secret-service) library.
 
 # Copyright
-Copyright (C) 2020 Ralph Plawetzki
+Copyright (C) 2020-2021 Ralph Plawetzki

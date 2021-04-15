@@ -4,10 +4,6 @@ import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.slf4j.Logger;
 
-import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.List;
-
 public class Context {
 
     private Logger log;

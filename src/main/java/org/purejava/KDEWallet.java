@@ -1,9 +1,9 @@
 package org.purejava;
 
-import org.freedesktop.DBus;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.handlers.Messaging;
+import org.freedesktop.dbus.interfaces.DBus;
 import org.freedesktop.dbus.messages.DBusSignal;
 import org.freedesktop.dbus.types.Variant;
 import org.kde.KWallet;
