@@ -1,7 +1,7 @@
 package org.purejava;
 
-import org.freedesktop.DBus;
 import org.freedesktop.dbus.exceptions.DBusException;
+import org.freedesktop.dbus.interfaces.DBus;
 import org.junit.jupiter.api.*;
 import org.kde.Static;
 import org.slf4j.Logger;
