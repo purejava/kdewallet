@@ -64,8 +64,8 @@ public class KDEWalletTest1 {
         assertTrue(folderRemoved);
         log.info("Folder '" + folder + "' successfully deleted.");
         response = kwallet.send("close", "ibs", handle, false, appid);
-        int walletClosed = (int) response[0];
-        assertTrue(walletClosed != -1);
+        int walletClosedId = (int) response[0];
+        assertTrue(walletClosedId != -1);
         log.info("Wallet '" + Static.DEFAULT_WALLET + "' with handle '" + handle + "' successfully closed.");
     }
 }
