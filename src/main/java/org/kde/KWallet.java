@@ -1,6 +1,5 @@
 package org.kde;
 
-import org.freedesktop.dbus.annotations.DBusMemberName;
 import org.freedesktop.dbus.annotations.MethodNoReply;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.interfaces.DBusInterface;

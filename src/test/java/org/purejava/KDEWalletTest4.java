@@ -28,7 +28,7 @@ public class KDEWalletTest4 implements PropertyChangeListener {
 
     @Test
     @Order(7)
-    @DisplayName("Checking availability of signals...")
+    @DisplayName("Checking availability of signals for locked wallet ...")
     public void testSignals() throws InterruptedException {
         KDEWallet kwallet = new KDEWallet(context.connection);
         String wallet = Static.DEFAULT_WALLET;
@@ -51,10 +51,12 @@ public class KDEWalletTest4 implements PropertyChangeListener {
         switch (event.getPropertyName()) {
             case "KWallet.walletAsyncOpened":
                 handle = (int) event.getNewValue();
+                break;
             case "KWallet.walletClosedId":
                 int closeHandle = (int) event.getNewValue();
                 assertEquals(closeHandle, handle);
                 log.info("Received signal 'KWallet.walletClosedId' with handle '" + closeHandle + "'.");
+                break;
             case "KWallet.walletClosed":
                 try {
                     String wallet = (String) event.getNewValue();
@@ -63,6 +65,9 @@ public class KDEWalletTest4 implements PropertyChangeListener {
                 } catch (ClassCastException ex) {
                     // ToDo handling overloaded signal here. Remove, when walletClosed(String path, int handle) got removed from kwallet.
                 }
+                break;
+            default:
+                break;
         }
     }
 }
