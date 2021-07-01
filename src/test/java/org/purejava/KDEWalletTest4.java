@@ -28,7 +28,7 @@ public class KDEWalletTest4 implements PropertyChangeListener {
 
     @Test
     @Order(7)
-    @DisplayName("Checking availability of signals...")
+    @DisplayName("Checking availability of signals for locked wallet ...")
     public void testSignals() throws InterruptedException {
         KDEWallet kwallet = new KDEWallet(context.connection);
         String wallet = Static.DEFAULT_WALLET;
