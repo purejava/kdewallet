@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * KWallet allows to store secrets as byte fields, that contain maps.
@@ -26,9 +27,7 @@ public class MapEntries {
      * @param value The secret to be stored with the key.
      */
     public void storeEntry(String key, String value) {
-        if (null == key) key = "";
-        if (null == value) value = "";
-        map.put(key, value);
+        map.put(Objects.toString(key, ""), Objects.toString(value, ""));
     }
 
     /**
@@ -69,11 +68,7 @@ public class MapEntries {
      * @return The value if set, an empty String otherwise.
      */
     public String getValue(String key) {
-        if (hasKey(key) && null != map.get(key)) {
-            return map.get(key);
-        } else {
-            return "";
-        }
+        return hasKey(key) && null != map.get(key) ? map.get(key) : "";
     }
 
     /**
@@ -97,11 +92,7 @@ public class MapEntries {
      * @return Number or 0 if map is empty.
      */
     public int count() {
-        if (null != map && !map.isEmpty()) {
-            return map.size();
-        } else {
-            return 0;
-        }
+        return null != map && !map.isEmpty() ? map.size() : 0;
     }
 
     /**
@@ -221,9 +212,9 @@ public class MapEntries {
             if (key.isEmpty()) key = "''";
             String value = entry.getValue();
             if (value.isEmpty()) value = "''";
-            sout.append("MapEntries (" +i + ") {key: " + key + ", value: " + value + "}\n");
+            sout.append("MapEntries (").append(i).append(") {key: ").append(key).append(", value: ").append(value).append("}\n");
             i++;
         }
-        return sout.toString().substring(0, sout.toString().length()-1);
+        return sout.substring(0, sout.toString().length()-1);
     }
 }

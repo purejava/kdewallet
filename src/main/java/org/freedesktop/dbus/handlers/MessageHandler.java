@@ -41,23 +41,30 @@ public class MessageHandler {
             org.freedesktop.dbus.messages.Message response = ((MethodCall) message).getReply(2000L);
             if (log.isTraceEnabled()) log.trace(String.valueOf(response));
 
-            if (response instanceof org.freedesktop.dbus.errors.Error) {
-                switch (response.getName()) {
-                    case "org.freedesktop.DBus.Error.NoReply":
-                        log.warn("D-Bus did not reply to the previous method call");
-                        break;
-                    default:
-                        throw new DBusException(response.getName() + ": " + response.getParameters()[0]);
-                }
+            Object[] parameters = null;
+            if (response != null) {
+                parameters = response.getParameters();
+                log.debug(Arrays.deepToString(parameters));
             }
 
-            Object[] parameters = response.getParameters();
-            log.debug(Arrays.deepToString(parameters));
+            if (response instanceof org.freedesktop.dbus.errors.Error) {
+                String error = response.getName();
+                switch (error) {
+                    case "org.freedesktop.DBus.Error.NoReply":
+                    case "org.freedesktop.DBus.Error.UnknownMethod":
+                    case "org.freedesktop.dbus.exceptions.NotConnected":
+                        log.debug(error);
+                        return null;
+                    default:
+                        throw new DBusException(error);
+                }
+            }
             return parameters;
 
         } catch (DBusException e) {
-            log.error(e.toString(), e.getCause());
+            log.error("Unexpected D-Bus response:", e);
         }
+
         return null;
     }
 

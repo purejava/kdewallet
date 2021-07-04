@@ -63,13 +63,13 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     @Override
     public int open(String wallet, long wId, String appid) {
         Object[] response = send("open", "sxs", wallet, wId, appid);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public int openPath(String path, long wId, String appid) {
         Object[] response = send("openPath", "sxs", path, wId, appid);
-        return (int) response[0];
+        return null == response ? 0 : (int) response[0];
     }
 
     @Override
