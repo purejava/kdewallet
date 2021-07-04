@@ -10,10 +10,10 @@ A Java library for storing secrets on linux in a KDE wallet over D-Bus.
 
 The KDE wallet functionality itself is provided by the kwallet daemon [kwalletd](https://github.com/KDE/kwallet/tree/master/src/runtime/kwalletd).
 
-# Usage
+## Usage
 The library provides an API, which sends secrets over D-Bus and has D-Bus signaling enabled.
 
-## Dependency
+### Dependency
 Add `kdewallet` as a dependency to your project.
 ```maven
 <dependency>
@@ -23,7 +23,7 @@ Add `kdewallet` as a dependency to your project.
 </dependency>
 ```
 
-## Accessing the kwallet daemon
+### Accessing the kwallet daemon
 Creating a folder in a wallet can be done like this:
 ```java
 package org.example;
@@ -63,15 +63,15 @@ public class App {
 }
 ```
 
-## Signal handling
+### Signal handling
 D-Bus signals are emitted on every change to a wallet, e.g. when it's opened asynchronously, closed etc.
 Listening to these signals can be done asynchronously with few effort.
 
 For the complete API and examples see the [Wiki](https://github.com/purejava/kdewallet/wiki/Home).
 
-# Thank you
+## Thank you
 Thanks to David M., who wrote an improved version of [Java DBus](https://github.com/hypfvieh/dbus-java) library provided by freedesktop.org.
 Thanks to Sebastian Wiesendahl, who implemented the original core messaging interface to DBus in his [secret-service](https://github.com/swiesend/secret-service) library.
 
-# Copyright
+## Copyright
 Copyright (C) 2020-2021 Ralph Plawetzki
