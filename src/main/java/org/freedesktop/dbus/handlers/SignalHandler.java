@@ -174,12 +174,18 @@ public class SignalHandler implements DBusSigHandler {
         return getHandledSignals(s, path).isEmpty() ? null : getHandledSignals(s, path).get(0);
     }
 
+    /**
+     * @deprecated Please use {@link #addPropertyChangeListener(PropertyChangeListener)} instead
+     */
     @Deprecated
     public <S extends DBusSignal> S await(Class<S> s, String path, Callable action) {
         final Duration timeout = Duration.ofSeconds(120);
         return await(s, path, action, timeout);
     }
 
+    /**
+     * @deprecated Please use {@link #addPropertyChangeListener(PropertyChangeListener)} instead
+     */
     @Deprecated
     public <S extends DBusSignal> S await(Class<S> s, String path, Callable action, Duration timeout) {
         final int init = getCount();
