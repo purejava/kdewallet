@@ -21,7 +21,7 @@ abstract public class Messaging {
                      String serviceName, String objectPath, String interfaceName) {
         this.connection = connection;
         this.msg = new MessageHandler(connection);
-        if (signals != null) {
+        if (null != signals) {
             this.sh.connect(connection, signals);
         }
         this.serviceName = serviceName;

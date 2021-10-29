@@ -29,7 +29,7 @@ public class MessageHandler {
 
     public Object[] send(String service, String path, String iface, String method, String signature, Object... args) {
         try {
-            org.freedesktop.dbus.messages.Message message = new MethodCall(
+            var message = new MethodCall(
                     service,
                     path,
                     iface,
@@ -38,7 +38,7 @@ public class MessageHandler {
             if (log.isTraceEnabled()) log.trace(String.valueOf(message));
             connection.sendMessage(message);
 
-            org.freedesktop.dbus.messages.Message response = ((MethodCall) message).getReply(2000L);
+            var response = message.getReply(2000L);
             if (log.isTraceEnabled()) log.trace(String.valueOf(response));
 
             Object[] parameters = null;
@@ -48,15 +48,15 @@ public class MessageHandler {
             }
 
             if (response instanceof org.freedesktop.dbus.errors.Error) {
-                String error = response.getName();
+                var error = response.getName();
                 switch (error) {
-                    case "org.freedesktop.DBus.Error.NoReply":
-                    case "org.freedesktop.DBus.Error.UnknownMethod":
-                    case "org.freedesktop.dbus.exceptions.NotConnected":
+                    case "org.freedesktop.DBus.Error.NoReply",
+                         "org.freedesktop.DBus.Error.UnknownMethod",
+                         "org.freedesktop.dbus.exceptions.NotConnected" -> {
                         log.debug(error);
                         return null;
-                    default:
-                        throw new DBusException(error);
+                    }
+                    default -> throw new DBusException(error);
                 }
             }
             return parameters;
@@ -69,13 +69,13 @@ public class MessageHandler {
     }
 
     public Variant getProperty(String service, String path, String iface, String property) {
-        Object[] response = send(service, path, Static.DBus.Interfaces.DBUS_PROPERTIES,
+        var response = send(service, path, Static.DBus.Interfaces.DBUS_PROPERTIES,
                 "Get", "ss", iface, property);
         return response == null ? null : (Variant) response[0];
     }
 
     public Variant getAllProperties(String service, String path, String iface) {
-        Object[] response = send(service, path, Static.DBus.Interfaces.DBUS_PROPERTIES,
+        var response = send(service, path, Static.DBus.Interfaces.DBUS_PROPERTIES,
                 "GetAll", "ss", iface);
         return response == null ? null : (Variant) response[0];
     }

@@ -103,12 +103,12 @@ public class MapEntries {
      */
     public byte[] getByteField() {
         if (null == map || map.isEmpty()) return new byte[0];
-        try (ByteArrayOutputStream b = new ByteArrayOutputStream();
-             DataOutputStream s = new DataOutputStream(b)) {
+        try (var b = new ByteArrayOutputStream();
+             var s = new DataOutputStream(b)) {
 
             s.writeInt(map.size());
 
-            for (Map.Entry<String, String> entry : map.entrySet()) {
+            for (var entry : map.entrySet()) {
                 if (null == entry.getKey() || entry.getKey().isEmpty()) {
                     s.write(EMPTY_ENTRY);
                     s.write(EMPTY_ENTRY);
@@ -151,15 +151,15 @@ public class MapEntries {
         map = new HashMap<>();
         if (null == s || s.length == 0) return true;
 
-        try (ByteArrayInputStream b = new ByteArrayInputStream(s);
-             DataInputStream x = new DataInputStream(b)) {
+        try (var b = new ByteArrayInputStream(s);
+             var x = new DataInputStream(b)) {
 
-            int mapSize = x.readInt();
+            var mapSize = x.readInt();
 
-            for (int i = 0; i < mapSize; i++) {
+            for (var i = 0; i < mapSize; i++) {
                 // check if the mext part is a number or an EMPTY_ENTRY
-                byte[] nextPart = new byte[4];
-                for (int k = 0; k < nextPart.length; k++) {
+                var nextPart = new byte[4];
+                for (var k = 0; k < nextPart.length; k++) {
                     nextPart[k] = x.readByte();
                 }
                 if (Arrays.equals(nextPart, EMPTY_ENTRY)) {
@@ -168,25 +168,25 @@ public class MapEntries {
                     continue;
                 }
                 // we have a number
-                int keySize = fourBytesToInt(nextPart) / 2;
-                StringBuilder k = new StringBuilder();
+                var keySize = fourBytesToInt(nextPart) / 2;
+                var k = new StringBuilder();
 
-                for (int j = 0; j < keySize; j++) {
+                for (var j = 0; j < keySize; j++) {
                     k.append(x.readChar());
                 }
 
                 // check if the next part is a number or an EMPTY_VALUE
                 nextPart = new byte[4];
-                for (int l = 0; l < nextPart.length; l++) {
+                for (var l = 0; l < nextPart.length; l++) {
                     nextPart[l] = x.readByte();
                 }
                 if (Arrays.equals(nextPart, EMPTY_VALUE)) {
                     map.put(k.toString(), "");
                     continue;
                 }
-                int valueSize = fourBytesToInt(nextPart) / 2;
-                StringBuilder v = new StringBuilder();
-                for (int j = 0; j < valueSize; j++) {
+                var valueSize = fourBytesToInt(nextPart) / 2;
+                var v = new StringBuilder();
+                for (var j = 0; j < valueSize; j++) {
                     v.append(x.readChar());
                 }
                 map.put(k.toString(), v.toString());
@@ -205,12 +205,12 @@ public class MapEntries {
 
     @Override
     public String toString() {
-        StringBuilder sout = new StringBuilder();
-        int i = 1;
+        var sout = new StringBuilder();
+        var i = 1;
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            String key = entry.getKey();
+            var key = entry.getKey();
             if (key.isEmpty()) key = "''";
-            String value = entry.getValue();
+            var value = entry.getValue();
             if (value.isEmpty()) value = "''";
             sout.append("MapEntries (").append(i).append(") {key: ").append(key).append(", value: ").append(value).append("}\n");
             i++;

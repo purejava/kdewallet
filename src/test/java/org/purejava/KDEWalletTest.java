@@ -36,7 +36,7 @@ public class KDEWalletTest implements PropertyChangeListener {
     @DisplayName("Checking availability of kwallet daemon...")
     public void isEnabled() {
         try {
-            DBus bus = context.connection.getRemoteObject("org.freedesktop.DBus",
+            var bus = context.connection.getRemoteObject("org.freedesktop.DBus",
                     "/org/freedesktop/DBus", DBus.class);
             assertTrue (Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd5"));
         } catch (DBusException e) {
@@ -48,36 +48,36 @@ public class KDEWalletTest implements PropertyChangeListener {
     @Order(2)
     @DisplayName("Checking availability of wallets...")
     public void wallets() {
-        KDEWallet kwallet = new KDEWallet(context.connection);
-        Object[] response = kwallet.send("wallets");
-        List<String> walletNames = (List<String>) response[0];
+        var kwallet = new KDEWallet(context.connection);
+        var response = kwallet.send("wallets");
+        var walletNames = (List<String>) response[0];
         assertTrue(walletNames.size() > 0);
         assertEquals(walletNames.get(0), Static.DEFAULT_WALLET);
-        log.info("Found " + "'" + walletNames.get(0) + "' as first wallet.");
+        log.info("Found '{}' as first wallet.", walletNames.get(0));
     }
 
     @Test
     @Order(3)
     @DisplayName("Testing create folder functionality in locked kdewallet...")
     void testCreateFolder() throws InterruptedException {
-        KDEWallet kwallet = new KDEWallet(context.connection);
-        String wallet = Static.DEFAULT_WALLET;
-        int wId = 0;
-        String appid = "Tester";
+        var kwallet = new KDEWallet(context.connection);
+        var wallet = Static.DEFAULT_WALLET;
+        var wId = 0;
+        var appid = "Tester";
         kwallet.getSignalHandler().addPropertyChangeListener(this);
         kwallet.openAsync(wallet, wId, appid, false);
         log.info("You have 10 seconds to enter the password :)");
         Thread.sleep(10000L); // give me 10 seconds to enter the password
         assertTrue(handle > 0);
-        if (handle > 0) log.info("Wallet " + "'" + Static.DEFAULT_WALLET + "' successfully opened.");
-        if (handle > 0) log.info("Received handle: " + handle + ".");
-        String folder = "Test-Folder";
-        boolean created = kwallet.createFolder(handle, folder, appid);
+        if (handle > 0) log.info("Wallet '{}' successfully opened.", Static.DEFAULT_WALLET);
+        if (handle > 0) log.info("Received handle: {}.", handle);
+        var folder = "Test-Folder";
+        var created = kwallet.createFolder(handle, folder, appid);
         assertTrue(created);
-        log.info("Folder '" + folder + "' successfully created.");
-        boolean removed = kwallet.removeFolder(handle, folder, appid);
+        log.info("Folder '{}' successfully created.", folder);
+        var removed = kwallet.removeFolder(handle, folder, appid);
         assertTrue(removed);
-        log.info("Folder '" + folder + "' successfully deleted.");
+        log.info("Folder '{}' successfully deleted.", folder);
     }
 
     @Override
