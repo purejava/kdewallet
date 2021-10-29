@@ -32,9 +32,9 @@ public class Static {
     public static class Convert {
 
         public static byte[] toByteArray(List<Byte> list) {
-            byte[] result = new byte[list.size()];
-            for (int i = 0; i < list.size(); i++) {
-                result[i] = list.get(i).byteValue();
+            var result = new byte[list.size()];
+            for (var i = 0; i < list.size(); i++) {
+                result[i] = list.get(i);
             }
             return result;
         }

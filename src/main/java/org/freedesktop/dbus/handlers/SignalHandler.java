@@ -50,7 +50,7 @@ public class SignalHandler implements DBusSigHandler {
     }
 
     public void connect(DBusConnection connection, List<Class<? extends DBusSignal>> signals) {
-        if (this.connection == null) {
+        if (null == this.connection) {
             this.connection = connection;
         }
         if (signals != null) {
@@ -58,7 +58,7 @@ public class SignalHandler implements DBusSigHandler {
                 for (Class sc : signals) {
                     if (!registered.contains(sc)) {
                         connection.addSigHandler(sc, this);
-                        this.registered.add(sc);
+                        registered.add(sc);
                     }
                 }
             } catch (DBusException e) {
@@ -68,7 +68,7 @@ public class SignalHandler implements DBusSigHandler {
     }
 
     public void disconnect() {
-        if (connection != null) {
+        if (null != connection) {
             try {
                 log.debug("remove signal handlers");
                 for (Class sc : registered) {
@@ -90,50 +90,41 @@ public class SignalHandler implements DBusSigHandler {
         handled[0] = s;
         count += 1;
 
-        if (s instanceof KWallet.walletOpened) {
-            KWallet.walletOpened wo = (KWallet.walletOpened) s;
+        if (s instanceof KWallet.walletOpened wo) {
             support.firePropertyChange("KWallet.walletOpened", null, wo.wallet);
-            log.info("Received signal KWallet.walletOpened: " + wo.wallet);
-        } else if (s instanceof KWallet.walletAsyncOpened) {
-            KWallet.walletAsyncOpened wo = (KWallet.walletAsyncOpened) s;
+            log.info("Received signal KWallet.walletOpened: {}", wo.wallet);
+        } else if (s instanceof KWallet.walletAsyncOpened wo) {
             support.firePropertyChange("KWallet.walletAsyncOpened", null, wo.handle);
-            log.info("Received signal KWallet.walletAsyncOpened: {TransactionID: " + wo.tId + ", handle: " + wo.handle + "}");
-        } else if (s instanceof KWallet.walletDeleted) {
-            KWallet.walletDeleted wd = (KWallet.walletDeleted) s;
+            log.info("Received signal KWallet.walletAsyncOpened: {TransactionID: {}, handle: {}}", wo.tId, wo.handle);
+        } else if (s instanceof KWallet.walletDeleted wd) {
             support.firePropertyChange("KWallet.walletDeleted", null, wd.wallet);
-            log.info("Received signal KWallet.walletDeleted: " + wd.wallet);
-        } else if (s instanceof KWallet.walletClosedId) {
-            KWallet.walletClosedId wc = (KWallet.walletClosedId) s;
+            log.info("Received signal KWallet.walletDeleted: {}", wd.wallet);
+        } else if (s instanceof KWallet.walletClosedId wc) {
             support.firePropertyChange("KWallet.walletClosedId", null, wc.handle);
-            log.info("Received signal KWallet.walletClosedId: " + wc.handle);
-        } else if (s instanceof KWallet.walletClosed) {
-            KWallet.walletClosed wc = (KWallet.walletClosed) s;
+            log.info("Received signal KWallet.walletClosedId: {}", wc.handle);
+        } else if (s instanceof KWallet.walletClosed wc) {
             support.firePropertyChange("KWallet.walletClosed", null, wc.wallet);
-            log.info("Received signal KWallet.walletClosed: " + wc.wallet);
+            log.info("Received signal KWallet.walletClosed: {}", wc.wallet);
         } else if (s instanceof KWallet.allWalletsClosed) {
             support.firePropertyChange("KWallet.allWalletsClosed", null, s.getPath());
-            log.info("Received signal KWallet.allWalletsClosed: " + s.getPath());
-        } else if (s instanceof KWallet.folderListUpdated) {
-            KWallet.folderListUpdated flu = (KWallet.folderListUpdated) s;
+            log.info("Received signal KWallet.allWalletsClosed: {}", s.getPath());
+        } else if (s instanceof KWallet.folderListUpdated flu) {
             support.firePropertyChange("KWallet.folderListUpdated", null, flu.wallet);
-            log.info("Received signal KWallet.folderListUpdated: " + flu.wallet);
-        } else if (s instanceof KWallet.folderUpdated) {
-            KWallet.folderUpdated fu = (KWallet.folderUpdated) s;
+            log.info("Received signal KWallet.folderListUpdated: {}", flu.wallet);
+        } else if (s instanceof KWallet.folderUpdated fu) {
             support.firePropertyChange("KWallet.folderUpdated", null, fu.a + "/" + fu.b);
-            log.info("Received signal KWallet.folderUpdated: {wallet: " + fu.a + ", folder: " + fu.b + "}");
-        } else if (s instanceof KWallet.applicationDisconnected) {
-            KWallet.applicationDisconnected ad = (KWallet.applicationDisconnected) s;
+            log.info("Received signal KWallet.folderUpdated: {wallet: {}, folder: {}}", fu.a, fu.b);
+        } else if (s instanceof KWallet.applicationDisconnected ad) {
             support.firePropertyChange("KWallet.applicationDisconnected", null, ad.application + "/" + ad.wallet);
-            log.info("Received signal KWallet.applicationDisconnected: {application: " + ad.application + ", wallet: " + ad.wallet + "}");
+            log.info("Received signal KWallet.applicationDisconnected: {application: {}, wallet: {}}", ad.application, ad.wallet);
         } else if (s instanceof KWallet.walletListDirty) {
             support.firePropertyChange("KWallet.walletListDirty", null, s.getPath());
-            log.debug("Received signal KWallet.walletListDirty: " + s.getPath());
-        } else if (s instanceof KWallet.walletCreated) {
-            KWallet.walletCreated wc = (KWallet.walletCreated) s;
+            log.debug("Received signal KWallet.walletListDirty: {}", s.getPath());
+        } else if (s instanceof KWallet.walletCreated wc) {
             support.firePropertyChange("KWallet.walletCreated", null, wc.wallet);
-            log.info("Received signal KWallet.walletCreated: " + wc.wallet);
+            log.info("Received signal KWallet.walletCreated: {}", wc.wallet);
         } else {
-            log.warn("Received unknown signal: " + s.getClass().toString() + " {" + s.toString() + "}");
+            log.warn("Received unknown signal: {} {{}}", s.getClass().toString(), s);
         }
     }
 
@@ -196,12 +187,12 @@ public class SignalHandler implements DBusSigHandler {
             log.error(e.toString(), e.getCause());
         }
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        var executor = Executors.newSingleThreadExecutor();
 
-        log.info("Await signal " + s.getName() + "(" + path + ") within " + timeout.getSeconds() + " seconds.");
+        log.info("Await signal {}" + "({}) within {} seconds.", s.getName(), path, timeout.getSeconds());
 
         final Future<S> handler = executor.submit((Callable) () -> {
-            int await = init;
+            var await = init;
             List<S> signals = null;
             while (await == init) {
                 if (Thread.currentThread().isInterrupted()) return null;
