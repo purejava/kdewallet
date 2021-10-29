@@ -75,25 +75,25 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     @Override
     public int openAsync(String wallet, long wId, String appid, boolean handleSession) {
         Object[] response = send("openAsync", "sxsb", wallet, wId, appid, handleSession);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public int openPathAsync(String path, long wId, String appid, boolean handleSession) {
         Object[] response = send("openPathAsync", "sxsb", path, wId, appid, handleSession);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public int close(String wallet, boolean force) {
         Object[] response = send("close", "sb", wallet, force);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public int close(int handle, boolean force, String appid) {
         Object[] response = send("close", "ibs", handle, force, appid);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
@@ -104,25 +104,24 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     @Override
     public int deleteWallet(String wallet) {
         Object[] response = send("deleteWallet", "s", wallet);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public boolean isOpen(String wallet) {
         Object[] response = send("isOpen", "s", wallet);
-        return (boolean) response[0];
+        return null != response && (boolean) response[0];
     }
 
     @Override
     public boolean isOpen(int handle) {
         Object[] response = send("isOpen", "i", handle);
-        return (boolean) response[0];
+        return null != response && (boolean) response[0];
     }
 
     @Override
     public List<String> users(String wallet) {
-        Object[] response = send("users", "s", wallet);
-        return (List<String>) response[0];
+        return contentOrEmptyList(send("users", "s", wallet));
     }
 
     @Override
@@ -132,78 +131,72 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     @Override
     public List<String> wallets() {
-        Object[] response = send("wallets");
-        return (List<String>) response[0];
+        return contentOrEmptyList(send("wallets"));
     }
 
     @Override
     public List<String> folderList(int handle, String appid) {
-        Object[] response = send("folderList", "is", handle, appid);
-        return (List<String>) response[0];
+        return contentOrEmptyList(send("folderList", "is", handle, appid));
     }
 
     @Override
     public boolean hasFolder(int handle, String folder, String appid) {
         Object[] response = send("hasFolder", "iss", handle, folder, appid);
-        return (boolean) response[0];
+        return null != response && (boolean) response[0];
     }
 
     @Override
     public boolean createFolder(int handle, String folder, String appid) {
         Object[] response = send("createFolder", "iss", handle, folder, appid);
-        return (boolean) response[0];
+        return null != response && (boolean) response[0];
     }
 
     @Override
     public boolean removeFolder(int handle, String folder, String appid) {
         Object[] response = send("removeFolder", "iss", handle, folder, appid);
-        return (boolean) response[0];
+        return null != response && (boolean) response[0];
     }
 
     @Override
     public List<String> entryList(int handle, String folder, String appid) {
-        Object[] response = send("entryList", "iss", handle, folder, appid);
-        return (List<String>) response[0];
+        return contentOrEmptyList(send("entryList", "iss", handle, folder, appid));
     }
 
     @Override
     public byte[] readEntry(int handle, String folder, String key, String appid) {
         Object[] response = send("readEntry", "isss", handle, folder, key, appid);
-        return (byte[]) response[0];
+        return null == response ? new byte[0] : (byte[]) response[0];
     }
 
     @Override
     public byte[] readMap(int handle, String folder, String key, String appid) {
         Object[] response = send("readMap", "isss", handle, folder, key, appid);
-        return (byte[]) response[0];
+        return null == response ? new byte[0] : (byte[]) response[0];
     }
 
     @Override
     public String readPassword(int handle, String folder, String key, String appid) {
         Object[] response = send("readPassword", "isss", handle, folder, key, appid);
-        return (String) response[0];
+        return null == response ? "" : (String) response[0];
     }
 
     @Override
     public Map<String, byte[]> entriesList(int handle, String folder, String appid) {
-        Object[] response = send("entriesList", "iss", handle, folder, appid);
-        Map<String, Variant> map = (Map<String, Variant>) response[0];
+        Map<String, Variant> map = contentOrEmptyMap(send("entriesList", "iss", handle, folder, appid));
         return map.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> (byte[]) e.getValue().getValue()));
     }
 
     @Override
     public Map<String, byte[]> mapList(int handle, String folder, String appid) {
-        Object[] response = send("mapList", "iss", handle, folder, appid);
-        Map<String, Variant> map = (Map<String, Variant>) response[0];
+        Map<String, Variant> map = contentOrEmptyMap(send("mapList", "iss", handle, folder, appid));
         return map.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> (byte[]) e.getValue().getValue()));
     }
 
     @Override
     public Map<String, String> passwordList(int handle, String folder, String appid) {
-        Object[] response = send("passwordList", "iss", handle, folder, appid);
-        Map<String, Variant> map = (Map<String, Variant>) response[0];
+        Map<String, Variant> map = contentOrEmptyMap(send("passwordList", "iss", handle, folder, appid));
         return map.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> (String) e.getValue().getValue()));
     }
@@ -211,55 +204,55 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     @Override
     public int renameEntry(int handle, String folder, String oldName, String newName, String appid) {
         Object[] response = send("renameEntry", "issss", handle, folder, oldName, newName, appid);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public int writeEntry(int handle, String folder, String key, byte[] value, int entryType, String appid) {
         Object[] response = send("writeEntry", "issayis", handle, folder, key, value, entryType, appid);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public int writeEntry(int handle, String folder, String key, byte[] value, String appid) {
         Object[] response = send("writeEntry", "issays", handle, folder, key, value, appid);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public int writeMap(int handle, String folder, String key, byte[] value, String appid) {
         Object[] response = send("writeMap", "issays", handle, folder, key, value, appid);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public int writePassword(int handle, String folder, String key, String value, String appid) {
         Object[] response = send("writePassword", "issss", handle, folder, key, value, appid);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public boolean hasEntry(int handle, String folder, String key, String appid) {
         Object[] response = send("hasEntry", "isss", handle, folder, key, appid);
-        return (boolean) response[0];
+        return null != response && (boolean) response[0];
     }
 
     @Override
     public int entryType(int handle, String folder, String key, String appid) {
         Object[] response = send("entryType", "isss", handle, folder, key, appid);
-        return (int) response[0];
+        return null == response ? 0 : (int) response[0];
     }
 
     @Override
     public int removeEntry(int handle, String folder, String key, String appid) {
         Object[] response = send("removeEntry", "isss", handle, folder, key, appid);
-        return (int) response[0];
+        return null == response ? -1 : (int) response[0];
     }
 
     @Override
     public boolean disconnectApplication(String wallet, String application) {
         Object[] response = send("disconnectApplication", "ss", wallet, application);
-        return (boolean) response[0];
+        return null != response && (boolean) response[0];
     }
 
     @Override
@@ -270,13 +263,13 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     @Override
     public boolean folderDoesNotExist(String wallet, String folder) {
         Object[] response = send("folderDoesNotExist", "ss", wallet, folder);
-        return (boolean) response[0];
+        return null != response && (boolean) response[0];
     }
 
     @Override
     public boolean keyDoesNotExist(String wallet, String folder, String key) {
         Object[] response = send("keyDoesNotExist", "sss", wallet, folder, key);
-        return (boolean) response[0];
+        return null != response && (boolean) response[0];
     }
 
     @Override
@@ -287,13 +280,13 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     @Override
     public String networkWallet() {
         Object[] response = send("networkWallet");
-        return (String) response[0];
+        return null == response ? "" : (String) response[0];
     }
 
     @Override
     public String localWallet() {
         Object[] response = send("localWallet");
-        return (String) response[0];
+        return null == response ? "" : (String) response[0];
     }
 
     @Override
@@ -317,5 +310,13 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
         } catch (Exception e) {
             log.error(e.toString(), e.getCause());
         }
+    }
+
+    private List<String> contentOrEmptyList(Object[] o) {
+        return null == o ? List.of() : (List<String>) o[0];
+    }
+
+    private Map<String, Variant> contentOrEmptyMap(Object[] o) {
+        return null == o ? Map.of() : (Map<String, Variant>) o[0];
     }
 }
