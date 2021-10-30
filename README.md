@@ -41,15 +41,15 @@ public class App {
         try {
             connection = DBusConnection.getConnection(DBusConnection.DBusBusType.SESSION);
 
-            KWallet service = connection.getRemoteObject("org.kde.kwalletd5",
+            var service = connection.getRemoteObject("org.kde.kwalletd5",
                     "/modules/kwalletd5", KWallet.class);
 
-            String wallet = "kdewallet";
-            int wId = 0;
-            String appid = "Tester";
-            int handle = service.open(wallet, wId, appid);
-            String folder = "Test-Folder";
-            boolean created = service.createFolder(handle, folder, appid);
+            var wallet = "kdewallet";
+            var wId = 0;
+            var appid = "Tester";
+            var handle = service.open(wallet, wId, appid);
+            var folder = "Test-Folder";
+            var created = service.createFolder(handle, folder, appid);
             service.close(handle, false, appid);
         } catch (DBusException e) {
             System.out.println(e.toString() + e.getCause());
