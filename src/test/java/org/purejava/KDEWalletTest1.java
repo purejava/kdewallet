@@ -32,6 +32,7 @@ public class KDEWalletTest1 {
         var wId = 0;
         var appid = "Tester";
         var response = kwallet.send("open", "sxs", wallet, wId, appid);
+        assertTrue(kwallet.isOpen(wallet));
         var handle = (int) response[0];
         assertTrue(handle > 0);
         if (handle > 0) log.info("Wallet '{}' successfully opened.", Static.DEFAULT_WALLET);
