@@ -58,8 +58,7 @@ public class KDEWalletTest3 {
         if (result == 0) log.info("Secret as map with key '{}' successfully stored in folder '{}'.", key3, folder);
         var key4 = "Stream1";
         var stream = "password3".getBytes();
-        var response = kwallet.send("writeEntry", "issays", handle, folder, key4, stream, appid);
-        result = (int) response[0];
+        result = kwallet.writeEntry(handle, folder, key4, stream, appid);
         assertEquals(result, 0);
         if (result == 0) log.info("Secret '{}' with with key '{}' successfully stored in folder '{}'.", new String(stream), key4, folder);
         var el = kwallet.entriesList(handle, folder, appid);
