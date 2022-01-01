@@ -19,7 +19,7 @@ Add `kdewallet` as a dependency to your project.
 <dependency>
     <groupId>org.purejava</groupId>
     <artifactId>kdewallet</artifactId>
-    <version>1.2.4</version>
+    <version>1.2.5</version>
 </dependency>
 ```
 
