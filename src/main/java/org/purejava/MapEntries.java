@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class MapEntries {
 
-    private Logger log = LoggerFactory.getLogger(MapEntries.class);
+    private final Logger log = LoggerFactory.getLogger(MapEntries.class);
     private Map<String, String> map = new HashMap<>();
     private final byte[] EMPTY_ENTRY = new byte[]{-1, -1, -1, -1};
     private final byte[] EMPTY_VALUE = new byte[]{0, 0, 0, 0};
@@ -154,7 +154,7 @@ public class MapEntries {
         try (var b = new ByteArrayInputStream(s);
              var x = new DataInputStream(b)) {
 
-            var mapSize = x.readInt();
+            var mapSize = x.readInt() & 0xFF;
 
             for (var i = 0; i < mapSize; i++) {
                 // check if the mext part is a number or an EMPTY_ENTRY
@@ -200,7 +200,7 @@ public class MapEntries {
     }
 
     private int fourBytesToInt(byte[] b) {
-        return ((b[0] << 24) + (b[1] << 16) + (b[2] << 8) + (b[3] << 0));
+        return ((b[0] << 24) + (b[1] << 16) + (b[2] << 8) + (b[3] << 0)) & 0xFF;
     }
 
     @Override

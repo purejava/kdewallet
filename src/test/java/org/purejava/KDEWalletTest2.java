@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -93,6 +95,15 @@ public class KDEWalletTest2 {
         result = (int) response[0];
         assertEquals(result, 0);
         if (result == 0) log.info("Map with with key '{}' successfully updated in folder '{}'.", key2, folder);
+        var longString = Stream.iterate("A", s -> s).limit(64).collect(Collectors.joining());
+        me.storeEntry("E", longString);
+        response = kwallet.send("writeEntry", "issayis", handle, folder, key2, me.getByteField(), 3, appid);
+        result = (int) response[0];
+        assertEquals(result, 0);
+        response = kwallet.send("readMap", "isss", handle, folder, key2, appid);
+        me.setByteField((byte[]) response[0]);
+        assertTrue(me.hasValue("E", longString));
+        log.info("Successfully stored and retrieved value '{}' with a length gt 63.", me.getValue("E"));
         var newName = "newName";
         response = kwallet.send("renameEntry", "issss", handle, folder, key1, newName, appid);
         var renaming = (int) response[0];
