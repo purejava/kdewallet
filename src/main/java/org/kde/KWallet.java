@@ -188,9 +188,9 @@ public interface KWallet extends DBusInterface {
     }
 
     /**
-     * Is kwallet installed?
+     * Is kwallet installed and the KDE wallet subsystem enabled?
      *
-     * @return Indicator, if the kwallet daemon is up and running or not.
+     * @return Indicator, if the kwallet daemon is up and running and the KDE wallet subsystem is enabled or not.
      */
     abstract public boolean isEnabled();
 

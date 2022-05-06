@@ -11,6 +11,9 @@ import org.kde.Static;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
-    private Logger log = LoggerFactory.getLogger(KDEWallet.class);
+    private final Logger log = LoggerFactory.getLogger(KDEWallet.class);
     private DBusConnection connection;
 
     public static final List<Class<? extends DBusSignal>> signals = Arrays.asList(
@@ -48,13 +51,27 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
         try {
             var bus = connection.getRemoteObject("org.freedesktop.DBus",
                     "/org/freedesktop/DBus", DBus.class);
-            if (Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd5")) {
-                log.debug("Kwallet daemon is available.");
+            var builder = new ProcessBuilder();
+            builder.command("kreadconfig5", "--file", System.getProperty("user.home") + "/.config/kwalletrc", "--group", "Wallet", "--key", "Enabled");
+            var process = builder.start();
+            var property = new StringBuilder();
+            try (var reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    property.append(line);
+                }
+            }
+            if (process.waitFor() == 0
+                    && property.toString().equals("true")
+                    && Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd5")) {
+                log.debug("Kwallet daemon and KDE wallet subsystem are available.");
                 return true;
             } else {
+                log.debug("KDEWallet is not available.");
                 return  false;
             }
-        } catch (DBusException e) {
+        } catch (DBusException | IOException | InterruptedException e) {
             log.error(e.toString(), e.getCause());
             return false;
         }

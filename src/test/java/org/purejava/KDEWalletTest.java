@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,13 +36,26 @@ public class KDEWalletTest implements PropertyChangeListener {
 
     @Test
     @Order(1)
-    @DisplayName("Checking availability of kwallet daemon...")
+    @DisplayName("Checking availability of KDE wallet subsystem and kwallet daemon ...")
     public void isEnabled() {
         try {
+            var builder = new ProcessBuilder();
+            builder.command("kreadconfig5", "--file", System.getProperty("user.home") + "/.config/kwalletrc", "--group", "Wallet", "--key", "Enabled");
+            var process = builder.start();
+            var property = new StringBuilder();
+            try (var reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    property.append(line);
+                }
+            }
+            assertEquals(0, process.waitFor());
+            assertEquals("true", property.toString());
             var bus = context.connection.getRemoteObject("org.freedesktop.DBus",
                     "/org/freedesktop/DBus", DBus.class);
             assertTrue (Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd5"));
-        } catch (DBusException e) {
+        } catch (DBusException | IOException | InterruptedException e) {
             log.error(e.toString(), e.getCause());
         }
     }
