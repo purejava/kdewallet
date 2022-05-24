@@ -28,7 +28,7 @@ Creating a folder in a wallet can be done like this:
 ```java
 package org.example;
 
-import org.freedesktop.dbus.connections.impl.DBusConnection;
+import org.freedesktop.dbus.connections.impl.DBusConnectionBuilder;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.kde.KWallet;
 
@@ -39,7 +39,7 @@ public class App {
         DBusConnection connection = null;
 
         try {
-            connection = DBusConnection.getConnection(DBusConnection.DBusBusType.SESSION);
+            connection = DBusConnectionBuilder.forSessionBus().withShared(false).build();
 
             var service = connection.getRemoteObject("org.kde.kwalletd5",
                     "/modules/kwalletd5", KWallet.class);

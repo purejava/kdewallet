@@ -1,6 +1,7 @@
 package org.purejava;
 
 import org.freedesktop.dbus.connections.impl.DBusConnection;
+import org.freedesktop.dbus.connections.impl.DBusConnectionBuilder;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.slf4j.Logger;
 
@@ -16,7 +17,7 @@ public class Context {
 
     public void ensureService() {
         try {
-            connection = DBusConnection.getConnection(DBusConnection.DBusBusType.SESSION);
+            connection = DBusConnectionBuilder.forSessionBus().withShared(false).build();
         } catch (DBusException e) {
             log.error(e.toString(), e.getCause());
         }
