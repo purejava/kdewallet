@@ -10,11 +10,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3k
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: '19'
           distribution: 'temurin'
           server-id: ossrh
           server-username: MAVEN_USERNAME
