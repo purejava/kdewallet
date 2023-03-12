@@ -63,7 +63,7 @@ public interface KWallet extends DBusInterface {
          *
          * @param path   The path to the object this is emitted from.
          * @param tId    Sequential TransactionID.
-         * @param handle Handle to the wallet.
+         * @param handle Handle to the wallet, -1 in case the unlock wallet dialog was dismissed.
          * @throws DBusException Could not communicate properly with the D-Bus.
          */
         public walletAsyncOpened(String path, int tId, int handle) throws DBusException {
@@ -112,7 +112,7 @@ public interface KWallet extends DBusInterface {
          * A wallet was closed.
          *
          * @param path   The path to the object this is emitted from.
-         * @param handle Handle to the wallet.
+         * @param handle Handle of the wallet.
          * @throws DBusException Could not communicate properly with the D-Bus.
          */
         public walletClosedId(String path, int handle) throws DBusException {
@@ -266,7 +266,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Save to disk but leave open.
      *
-     * @param handle Handle to the wallet to be saved.
+     * @param handle Valid handle to the wallet to be saved.
      * @param appid  AppID of the app to access the wallet.
      */
     @MethodNoReply
@@ -323,7 +323,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Obtain the list of all folders contained in the wallet.
      *
-     * @param handle    Handle to the wallet to be read from.
+     * @param handle    Valid handle to the wallet to be read from.
      * @param appid     AppID of the app to access the wallet.
      * @return List of folders in that wallet.
      */
@@ -332,7 +332,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Determine, if the folder exists in the wallet.
      *
-     * @param handle Handle to the wallet to be read from.
+     * @param handle Valid handle to the wallet to be read from.
      * @param folder Name of the folder.
      * @param appid AppID of the app to access the wallet.
      * @return True if the folder exists, false otherwise.
@@ -342,7 +342,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Create a folder.
      *
-     * @param handle    Handle to the wallet to write to.
+     * @param handle    Valid handle to the wallet to write to.
      * @param folder    Name of the folder.
      * @param appid     AppID of the app to access the wallet.
      * @return True on success, false on error or in case the folder already exists.
@@ -352,7 +352,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Delete a folder.
      *
-     * @param handle    Handle to the wallet to write to.
+     * @param handle    Valid handle to the wallet to write to.
      * @param folder    Name of the folder.
      * @param appid AppID of the app to access the wallet.
      * @return True on success, false on error.
@@ -362,7 +362,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Get a list of all the entries (keys) in the given folder.
      *
-     * @param handle    Handle to the wallet to read from.
+     * @param handle    Valid handle to the wallet to read from.
      * @param folder    Name of the folder.
      * @param appid     AppID of the app to access the wallet.
      * @return List of entries (keys) in the folder.
@@ -372,7 +372,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Read a secret from the wallet.
      *
-     * @param handle    Handle to the wallet to read from.
+     * @param handle    Valid handle to the wallet to read from.
      * @param folder    Folder that contains the secret.
      * @param key       Identifier for the secret.
      * @param appid     AppID of the app to access the wallet.
@@ -383,7 +383,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Read a secret of type map from the wallet.
      *
-     * @param handle Handle to the wallet to read from.
+     * @param handle Valid handle to the wallet to read from.
      * @param folder Folder that contains the secret.
      * @param key    Identifier for the secret.
      * @param appid  AppID of the app to access the wallet.
@@ -394,7 +394,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Read a secret of type password from the wallet.
      *
-     * @param handle    Handle to the wallet to read from.
+     * @param handle    Valid handle to the wallet to read from.
      * @param folder    Folder that contains the secret.
      * @param key       Identifier for the secret.
      * @param appid     AppID of the app to access the wallet.
@@ -413,7 +413,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Get a list of all the secrets in the given folder.
      *
-     * @param handle Handle to the wallet to read from.
+     * @param handle Valid handle to the wallet to read from.
      * @param folder Folder that contains the secret(s).
      * @param appid  AppID of the app to access the wallet.
      * @return Map of secrets of all types  in the folder.
@@ -423,7 +423,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Get a list of all the secrets of type map in the given folder.
      *
-     * @param handle Handle to the wallet to read from.
+     * @param handle Valid handle to the wallet to read from.
      * @param folder Folder that contains the secret(s).
      * @param appid  AppID of the app to access the wallet.
      * @return Map of maps in the folder.
@@ -433,7 +433,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Get a list of all the secrets of type password in the given folder.
      *
-     * @param handle Handle to the wallet to read from.
+     * @param handle Valid handle to the wallet to read from.
      * @param folder Folder that contains the secret(s).
      * @param appid  AppID of the app to access the wallet.
      * @return Map of passwords in the folder.
@@ -443,7 +443,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Rename an entry that contains a secret within a folder.
      *
-     * @param handle  Handle to the wallet to write to.
+     * @param handle  Valid handle to the wallet to write to.
      * @param folder  Folder that contains the secret.
      * @param oldName Old name of the entry to be changed.
      * @param newName New name.
@@ -455,7 +455,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Store a secret in the wallet. An existing secret gets overwritten.
      *
-     * @param handle    Handle to the wallet to write to.
+     * @param handle    Valid handle to the wallet to write to.
      * @param folder    Folder to store the secret in.
      * @param key       Identifier for the secret.
      * @param value     The secret itself.
@@ -468,7 +468,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Store a secret of type stream in the wallet. An existing secret gets overwritten.
      *
-     * @param handle    Handle to the wallet to write to.
+     * @param handle    Valid handle to the wallet to write to.
      * @param folder    Folder to store the secret in.
      * @param key       Identifier for the secret.
      * @param value     The secret itself.
@@ -480,7 +480,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Store a secret of type map in the wallet. An existing secret gets overwritten.
      *
-     * @param handle Handle to the wallet to write to.
+     * @param handle Vaild handle to the wallet to write to.
      * @param folder Folder to store the secret in.
      * @param key    Identifier for the secret.
      * @param value  The secret itself.
@@ -492,7 +492,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Store a secret of type password in the wallet. An existing secret gets overwritten.
      *
-     * @param handle    Handle to the wallet to write to.
+     * @param handle    Valid handle to the wallet to write to.
      * @param folder    Folder to store the secret in.
      * @param key       Identifier for the secret.
      * @param value     The secret itself.
@@ -504,7 +504,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Check whether a folder in a wallet contains an identifier for a secret.
      *
-     * @param handle    Handle to the wallet to read from.
+     * @param handle    Valid handle to the wallet to read from.
      * @param folder    Folder to search.
      * @param key       Identifier for the secret.
      * @param appid     AppID of the app to access the wallet.
@@ -515,7 +515,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Determine the type of the entry key in this folder.
      *
-     * @param handle    Handle to the wallet to read from.
+     * @param handle    Valid handle to the wallet to read from.
      * @param folder    Name of the folder.
      * @param key       Identifier for the secret.
      * @param appid     AppID of the app to access the wallet.
@@ -526,7 +526,7 @@ public interface KWallet extends DBusInterface {
     /**
      * Delete an identifier for a secret from the folder.
      *
-     * @param handle    Handle to the wallet to write to.
+     * @param handle    Valid handle to the wallet to write to.
      * @param folder    Folder to delete the key from.
      * @param key       Identifier for the secret.
      * @param appid     AppID of the app to access the wallet.
