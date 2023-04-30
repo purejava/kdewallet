@@ -1,7 +1,9 @@
 package org.purejava;
 
 import org.junit.jupiter.api.*;
-import org.kde.Static;
+import org.purejava.kwallet.Static;
+import org.purejava.kwallet.KDEWallet;
+import org.purejava.kwallet.MapEntries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

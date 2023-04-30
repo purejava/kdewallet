@@ -1,13 +1,12 @@
-package org.purejava;
+package org.purejava.kwallet;
 
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
-import org.freedesktop.dbus.handlers.Messaging;
+import org.purejava.kwallet.freedesktop.dbus.handlers.Messaging;
 import org.freedesktop.dbus.interfaces.DBus;
 import org.freedesktop.dbus.messages.DBusSignal;
 import org.freedesktop.dbus.types.Variant;
 import org.kde.KWallet;
-import org.kde.Static;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

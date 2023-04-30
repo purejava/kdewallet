@@ -1,4 +1,4 @@
-package org.purejava;
+package org.purejava.kwallet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +97,7 @@ public class MapEntries {
 
     /**
      * Take the intern representation of the map entries and convert it to a KWallet map compatible byte field.
-     * @see org.purejava.MapEntries#setByteField(byte[])
+     * @see MapEntries#setByteField(byte[])
      *
      * @return The byte field or byte[0] in case something went wrong.
      */

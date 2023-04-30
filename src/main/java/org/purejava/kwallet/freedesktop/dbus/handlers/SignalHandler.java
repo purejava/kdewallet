@@ -1,4 +1,4 @@
-package org.freedesktop.dbus.handlers;
+package org.purejava.kwallet.freedesktop.dbus.handlers;
 
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;

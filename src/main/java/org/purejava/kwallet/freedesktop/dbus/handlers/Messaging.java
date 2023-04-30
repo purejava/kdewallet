@@ -1,10 +1,10 @@
-package org.freedesktop.dbus.handlers;
+package org.purejava.kwallet.freedesktop.dbus.handlers;
 
 import org.freedesktop.dbus.ObjectPath;
-import org.kde.Static;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.messages.DBusSignal;
 import org.freedesktop.dbus.types.Variant;
+import org.purejava.kwallet.Static;
 
 import java.util.List;
 

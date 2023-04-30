@@ -1,10 +1,10 @@
-package org.freedesktop.dbus.handlers;
+package org.purejava.kwallet.freedesktop.dbus.handlers;
 
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.messages.MethodCall;
 import org.freedesktop.dbus.types.Variant;
-import org.kde.Static;
+import org.purejava.kwallet.Static;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

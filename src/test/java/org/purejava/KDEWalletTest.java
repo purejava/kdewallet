@@ -3,7 +3,8 @@ package org.purejava;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.interfaces.DBus;
 import org.junit.jupiter.api.*;
-import org.kde.Static;
+import org.purejava.kwallet.Static;
+import org.purejava.kwallet.KDEWallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

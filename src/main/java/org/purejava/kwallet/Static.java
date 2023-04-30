@@ -1,4 +1,4 @@
-package org.kde;
+package org.purejava.kwallet;
 
 import org.freedesktop.dbus.DBusPath;
 import org.freedesktop.dbus.ObjectPath;
