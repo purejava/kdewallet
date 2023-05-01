@@ -5,4 +5,5 @@ module org.purejava.kwallet {
 
     exports org.kde;
     exports org.purejava.kwallet;
+    exports org.purejava.kwallet.freedesktop.dbus.handlers;
 }
