@@ -1,5 +1,6 @@
-package org.kde;
+package org.purejava.kwallet;
 
+import org.freedesktop.dbus.annotations.DBusInterfaceName;
 import org.freedesktop.dbus.annotations.MethodNoReply;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.interfaces.DBusInterface;
@@ -8,6 +9,7 @@ import org.freedesktop.dbus.messages.DBusSignal;
 import java.util.List;
 import java.util.Map;
 
+@DBusInterfaceName("org.kde.KWallet")
 public interface KWallet extends DBusInterface {
 
     public static class walletListDirty extends DBusSignal {

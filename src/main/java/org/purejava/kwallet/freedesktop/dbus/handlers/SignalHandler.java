@@ -4,7 +4,7 @@ import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.interfaces.DBusSigHandler;
 import org.freedesktop.dbus.messages.DBusSignal;
-import org.kde.KWallet;
+import org.purejava.kwallet.KWallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
