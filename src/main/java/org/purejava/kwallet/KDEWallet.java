@@ -305,7 +305,7 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     public void close() {
         try {
-            if (null != connection) connection.disconnect();
+            if (null != connection && connection.isConnected()) connection.disconnect();
         } catch (Exception e) {
             log.error(e.toString(), e.getCause());
         }

@@ -32,9 +32,6 @@ public class SignalHandler implements DBusSigHandler {
 
     private SignalHandler() {
         support = new PropertyChangeSupport(this);
-        Runtime.getRuntime().addShutdownHook(new Thread(() ->
-                disconnect()
-        ));
     }
 
     public static SignalHandler getInstance() {
@@ -59,22 +56,6 @@ public class SignalHandler implements DBusSigHandler {
                     if (!registered.contains(sc)) {
                         connection.addSigHandler(sc, this);
                         registered.add(sc);
-                    }
-                }
-            } catch (DBusException e) {
-                log.error(e.toString(), e.getCause());
-            }
-        }
-    }
-
-    public void disconnect() {
-        if (null != connection) {
-            try {
-                log.debug("remove signal handlers");
-                for (Class sc : registered) {
-                    if (connection.isConnected()) {
-                        log.trace("remove signal handler: " + sc.getName());
-                        connection.removeSigHandler(sc, this);
                     }
                 }
             } catch (DBusException e) {
