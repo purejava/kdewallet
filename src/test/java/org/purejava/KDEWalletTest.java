@@ -17,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class KDEWalletTest implements PropertyChangeListener {
-    private final Logger log = LoggerFactory.getLogger(KDEWalletTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KDEWalletTest.class);
     private Context context;
     private int handle = -1;
 
     @BeforeEach
     public void beforeEach(TestInfo info) {
-        context = new Context(log);
+        context = new Context();
         context.ensureService();
     }
 
@@ -39,9 +39,10 @@ public class KDEWalletTest implements PropertyChangeListener {
         try {
             var bus = context.connection.getRemoteObject("org.freedesktop.DBus",
                     "/org/freedesktop/DBus", DBus.class);
-            assertTrue (Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd5"));
+            assertTrue (Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd5")
+                || Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd6"));
         } catch (DBusException e) {
-            log.error(e.toString(), e.getCause());
+            LOG.error(e.toString(), e.getCause());
         }
     }
 
@@ -54,7 +55,7 @@ public class KDEWalletTest implements PropertyChangeListener {
         var walletNames = (List<String>) response[0];
         assertTrue(walletNames.size() > 0);
         assertEquals(walletNames.get(0), Static.DEFAULT_WALLET);
-        log.info("Found '{}' as first wallet.", walletNames.get(0));
+        LOG.info("Found '{}' as first wallet.", walletNames.get(0));
     }
 
     @Test
@@ -67,18 +68,18 @@ public class KDEWalletTest implements PropertyChangeListener {
         var appid = "Tester";
         kwallet.getSignalHandler().addPropertyChangeListener(this);
         kwallet.openAsync(wallet, wId, appid, false);
-        log.info("You have 10 seconds to enter the password :)");
+        LOG.info("You have 10 seconds to enter the password :)");
         Thread.sleep(10000L); // give me 10 seconds to enter the password
         assertTrue(handle > 0);
-        if (handle > 0) log.info("Wallet '{}' successfully opened.", Static.DEFAULT_WALLET);
-        if (handle > 0) log.info("Received handle: {}.", handle);
+        if (handle > 0) LOG.info("Wallet '{}' successfully opened.", Static.DEFAULT_WALLET);
+        if (handle > 0) LOG.info("Received handle: {}.", handle);
         var folder = "Test-Folder";
         var created = kwallet.createFolder(handle, folder, appid);
         assertTrue(created);
-        log.info("Folder '{}' successfully created.", folder);
+        LOG.info("Folder '{}' successfully created.", folder);
         var removed = kwallet.removeFolder(handle, folder, appid);
         assertTrue(removed);
-        log.info("Folder '{}' successfully deleted.", folder);
+        LOG.info("Folder '{}' successfully deleted.", folder);
     }
 
     @Override

@@ -41,8 +41,8 @@ public class App {
         try {
             connection = DBusConnectionBuilder.forSessionBus().withShared(false).build();
 
-            var service = connection.getRemoteObject("org.kde.kwalletd5",
-                    "/modules/kwalletd5", KWallet.class);
+            var service = connection.getRemoteObject("org.kde.kwalletd6",
+                    "/modules/kwalletd6", KWallet.class);
 
             var wallet = "kdewallet";
             var wId = 0;

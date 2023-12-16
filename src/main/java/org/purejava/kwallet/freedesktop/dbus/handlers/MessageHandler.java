@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class MessageHandler {
 
-    private Logger log = LoggerFactory.getLogger(MessageHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MessageHandler.class);
 
     private DBusConnection connection;
 
@@ -35,16 +35,16 @@ public class MessageHandler {
                     iface,
                     method, (byte) 0, signature, args);
 
-            if (log.isTraceEnabled()) log.trace(String.valueOf(message));
+            if (LOG.isTraceEnabled()) LOG.trace(String.valueOf(message));
             connection.sendMessage(message);
 
             var response = message.getReply(2000L);
-            if (log.isTraceEnabled()) log.trace(String.valueOf(response));
+            if (LOG.isTraceEnabled()) LOG.trace(String.valueOf(response));
 
             Object[] parameters = null;
             if (response != null) {
                 parameters = response.getParameters();
-                log.debug(Arrays.deepToString(parameters));
+                LOG.debug(Arrays.deepToString(parameters));
             }
 
             if (response instanceof org.freedesktop.dbus.errors.Error) {
@@ -53,7 +53,7 @@ public class MessageHandler {
                     case "org.freedesktop.DBus.Error.NoReply",
                          "org.freedesktop.DBus.Error.UnknownMethod",
                          "org.freedesktop.dbus.exceptions.NotConnected" -> {
-                        log.debug(error);
+                        LOG.debug(error);
                         return null;
                     }
                     default -> throw new DBusException(error);
@@ -62,7 +62,7 @@ public class MessageHandler {
             return parameters;
 
         } catch (DBusException e) {
-            log.error("Unexpected D-Bus response:", e);
+            LOG.error("Unexpected D-Bus response:", e);
         }
 
         return null;

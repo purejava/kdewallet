@@ -1,15 +1,16 @@
 package org.purejava.kwallet;
 
 import org.freedesktop.dbus.connections.impl.DBusConnection;
+import org.freedesktop.dbus.connections.impl.DBusConnectionBuilder;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.purejava.kwallet.freedesktop.dbus.handlers.Messaging;
 import org.freedesktop.dbus.interfaces.DBus;
 import org.freedesktop.dbus.messages.DBusSignal;
 import org.freedesktop.dbus.types.Variant;
-import org.purejava.kwallet.KWallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,12 @@ import java.util.stream.Collectors;
 
 public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
-    private Logger log = LoggerFactory.getLogger(KDEWallet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KDEWallet.class);
+    private static String SERVICE;
+    private static String OBJECT_PATHS;
     private DBusConnection connection;
 
-    public static final List<Class<? extends DBusSignal>> signals = Arrays.asList(
+    public static final List<Class<? extends DBusSignal>> SIGNALS = Arrays.asList(
             applicationDisconnected.class,
             folderUpdated.class,
             folderListUpdated.class,
@@ -35,26 +38,55 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
     public KDEWallet(DBusConnection connection) {
         super(connection,
-                signals,
-                Static.Service.KWALLETD5,
-                Static.ObjectPaths.KWALLETD5,
+                SIGNALS,
+                SERVICE,
+                OBJECT_PATHS,
                 Static.Interfaces.KWALLET);
         this.connection = connection;
     }
 
+    static {
+        try (var connection = DBusConnectionBuilder.forSessionBus().withShared(false).build()) {
+            try {
+                var bus = connection.getRemoteObject("org.freedesktop.DBus",
+                        "/org/freedesktop/DBus", DBus.class);
+                if (Arrays.asList(bus.ListActivatableNames()).contains(Static.Service.KWALLETD6)) {
+                    SERVICE = Static.Service.KWALLETD6;
+                    OBJECT_PATHS = Static.ObjectPaths.KWALLETD6;
+                    LOG.debug("Kwallet daemon v6 initialized");
+                } else if (Arrays.asList(bus.ListActivatableNames()).contains(Static.Service.KWALLETD5)) {
+                    SERVICE = Static.Service.KWALLETD5;
+                    OBJECT_PATHS = Static.ObjectPaths.KWALLETD5;
+                    LOG.debug("Kwallet daemon v5 initialized");
+                }
+            } catch (DBusException e) {
+                LOG.error(e.toString(), e.getCause());
+            }
+        } catch (IOException | DBusException e) {
+            LOG.error(e.toString(), e.getCause());
+        }
+    }
+
     @Override
     public boolean isEnabled() {
+        if (null == connection) {
+            LOG.debug("No d-bus connection available");
+            return false;
+        }
         try {
             var bus = connection.getRemoteObject("org.freedesktop.DBus",
                     "/org/freedesktop/DBus", DBus.class);
-            if (Arrays.asList(bus.ListActivatableNames()).contains("org.kde.kwalletd5")) {
-                log.debug("Kwallet daemon is available.");
+            if (Arrays.asList(bus.ListActivatableNames()).contains(Static.Service.KWALLETD6)) {
+                LOG.debug("Kwallet daemon v6 is available");
+                return true;
+            } else if (Arrays.asList(bus.ListActivatableNames()).contains(Static.Service.KWALLETD5)) {
+                LOG.debug("Kwallet daemon v5 is available");
                 return true;
             } else {
-                return  false;
+                return false;
             }
         } catch (DBusException e) {
-            log.error(e.toString(), e.getCause());
+            LOG.error(e.toString(), e.getCause());
             return false;
         }
     }
@@ -307,7 +339,7 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
         try {
             if (null != connection && connection.isConnected()) connection.disconnect();
         } catch (Exception e) {
-            log.error(e.toString(), e.getCause());
+            LOG.error(e.toString(), e.getCause());
         }
     }
 

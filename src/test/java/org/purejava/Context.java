@@ -4,22 +4,21 @@ import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.connections.impl.DBusConnectionBuilder;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Context {
 
-    private Logger log;
+    private static final Logger LOG = LoggerFactory.getLogger(Context.class);
 
     public DBusConnection connection = null;
 
-    public Context(Logger log) {
-        this.log = log;
-    }
+    public Context() { }
 
     public void ensureService() {
         try {
             connection = DBusConnectionBuilder.forSessionBus().withShared(false).build();
         } catch (DBusException e) {
-            log.error(e.toString(), e.getCause());
+            LOG.error(e.toString(), e.getCause());
         }
     }
 
@@ -28,7 +27,7 @@ public class Context {
             connection.disconnect();
             Thread.sleep(150L);
         } catch (InterruptedException e) {
-            log.error(e.toString(), e.getCause());
+            LOG.error(e.toString(), e.getCause());
         }
     }
 }

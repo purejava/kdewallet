@@ -19,10 +19,12 @@ public class Static {
 
     public static class Service {
         public static final String KWALLETD5 = "org.kde.kwalletd5";
+        public static final String KWALLETD6 = "org.kde.kwalletd6";
     }
 
     public static class ObjectPaths {
         public static final String KWALLETD5 = "/modules/kwalletd5";
+        public static final String KWALLETD6 = "/modules/kwalletd6";
     }
 
     public static class Interfaces {
