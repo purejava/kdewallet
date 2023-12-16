@@ -12,13 +12,13 @@ import java.beans.PropertyChangeListener;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class KDEWalletTest4 implements PropertyChangeListener {
-    private final Logger log = LoggerFactory.getLogger(KDEWalletTest4.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KDEWalletTest4.class);
     private Context context;
     private int handle = -1;
 
     @BeforeEach
     public void beforeEach(TestInfo info) {
-        context = new Context(log);
+        context = new Context();
         context.ensureService();
     }
 
@@ -38,13 +38,13 @@ public class KDEWalletTest4 implements PropertyChangeListener {
         kwallet.getSignalHandler().addPropertyChangeListener(this);
         assertFalse(kwallet.isOpen(wallet));
         kwallet.openAsync(wallet, wId, appid, false);
-        log.info("You have 10 seconds to enter the password :)");
+        LOG.info("You have 10 seconds to enter the password :)");
         Thread.sleep(10000L);
         assertTrue(handle > 0);
-        log.info("Wallet '{}' successfully opened.", Static.DEFAULT_WALLET);
+        LOG.info("Wallet '{}' successfully opened.", Static.DEFAULT_WALLET);
         var walletClosedId = kwallet.close(handle, true, appid);
         assertTrue(walletClosedId != -1);
-        log.info("Wallet '{}' with handle '{}' successfully closed.", Static.DEFAULT_WALLET, handle);
+        LOG.info("Wallet '{}' with handle '{}' successfully closed.", Static.DEFAULT_WALLET, handle);
     }
 
     @Override
@@ -56,13 +56,13 @@ public class KDEWalletTest4 implements PropertyChangeListener {
             case "KWallet.walletClosedId":
                 var closeHandle = (int) event.getNewValue();
                 assertEquals(closeHandle, handle);
-                log.info("Received signal 'KWallet.walletClosedId' with handle '{}'.", closeHandle);
+                LOG.info("Received signal 'KWallet.walletClosedId' with handle '{}'.", closeHandle);
                 break;
             case "KWallet.walletClosed":
                 try {
                     var wallet = (String) event.getNewValue();
                     assertEquals(wallet, Static.DEFAULT_WALLET);
-                    log.info("Received signal 'KWallet.walletClosed' for wallet '{}'.", wallet);
+                    LOG.info("Received signal 'KWallet.walletClosed' for wallet '{}'.", wallet);
                 } catch (ClassCastException ex) {
                     // ToDo handling overloaded signal here. Remove, when walletClosed(String path, int handle) got removed from kwallet.
                 }

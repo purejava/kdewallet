@@ -5,11 +5,14 @@ import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.messages.DBusSignal;
 import org.freedesktop.dbus.types.Variant;
 import org.purejava.kwallet.Static;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 abstract public class Messaging {
 
+    private static final Logger LOG = LoggerFactory.getLogger(Messaging.class);
     private DBusConnection connection;
     private MessageHandler msg;
     private SignalHandler sh = SignalHandler.getInstance();
@@ -23,6 +26,9 @@ abstract public class Messaging {
         this.msg = new MessageHandler(connection);
         if (null != signals) {
             this.sh.connect(connection, signals);
+        }
+        if (null == serviceName || null == objectPath) {
+            LOG.error("Severe error: Kwallet daemon not initialized properly");
         }
         this.serviceName = serviceName;
         this.objectPath = objectPath;
