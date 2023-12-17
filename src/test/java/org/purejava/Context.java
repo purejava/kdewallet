@@ -12,8 +12,6 @@ public class Context {
 
     public DBusConnection connection = null;
 
-    public Context() { }
-
     public void ensureService() {
         try {
             connection = DBusConnectionBuilder.forSessionBus().withShared(false).build();
