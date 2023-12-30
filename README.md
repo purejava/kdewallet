@@ -2,7 +2,7 @@
 ![KWallet](KWallet.png)
 
 [![Publish to Maven Central](https://github.com/purejava/kdewallet/workflows/Publish%20to%20Maven%20Central/badge.svg)](https://github.com/purejava/kdewallet/actions?query=workflow%3A%22Publish+to+Maven+Central%22)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b1379afd2db3447abfbdca82fbdc2b7a)](https://www.codacy.com/gh/purejava/kdewallet/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=purejava/kdewallet&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b1379afd2db3447abfbdca82fbdc2b7a)](https://app.codacy.com/gh/purejava/kdewallet/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Maven Central](https://img.shields.io/maven-central/v/org.purejava/kdewallet.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=kdewallet&smo=true&namespace=org.purejava)
 [![License](https://img.shields.io/github/license/purejava/kdewallet.svg)](https://github.com/purejava/kdewallet/blob/master/LICENSE)
 
