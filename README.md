@@ -74,4 +74,4 @@ Thanks to David M., who wrote an improved version of [Java DBus](https://github.
 Thanks to Sebastian Wiesendahl, who implemented the original core messaging interface to DBus in his [secret-service](https://github.com/swiesend/secret-service) library.
 
 ## Copyright
-Copyright (C) 2020-2023 Ralph Plawetzki
+Copyright (C) 2020-2024 Ralph Plawetzki
