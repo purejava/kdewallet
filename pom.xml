@@ -47,13 +47,13 @@
         <dependency>
             <groupId>com.github.hypfvieh</groupId>
             <artifactId>dbus-java-core</artifactId>
-            <version>4.3.1</version>
+            <version>5.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.hypfvieh</groupId>
             <artifactId>dbus-java-transport-native-unixsocket</artifactId>
-            <version>4.3.1</version>
+            <version>5.0.0</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->

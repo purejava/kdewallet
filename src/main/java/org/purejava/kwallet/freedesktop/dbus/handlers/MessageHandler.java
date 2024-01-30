@@ -2,7 +2,6 @@ package org.purejava.kwallet.freedesktop.dbus.handlers;
 
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
-import org.freedesktop.dbus.messages.MethodCall;
 import org.freedesktop.dbus.types.Variant;
 import org.purejava.kwallet.Static;
 import org.slf4j.Logger;
@@ -29,11 +28,8 @@ public class MessageHandler {
 
     public Object[] send(String service, String path, String iface, String method, String signature, Object... args) {
         try {
-            var message = new MethodCall(
-                    service,
-                    path,
-                    iface,
-                    method, (byte) 0, signature, args);
+            var msgFactory = connection.getMessageFactory();
+            var message = msgFactory.createMethodCall(service, path, iface, method, (byte) 0, signature, args);
 
             if (LOG.isTraceEnabled()) LOG.trace(String.valueOf(message));
             connection.sendMessage(message);
@@ -47,7 +43,7 @@ public class MessageHandler {
                 LOG.debug(Arrays.deepToString(parameters));
             }
 
-            if (response instanceof org.freedesktop.dbus.errors.Error) {
+            if (response instanceof org.freedesktop.dbus.messages.Error) {
                 var error = response.getName();
                 switch (error) {
                     case "org.freedesktop.DBus.Error.NoReply",
