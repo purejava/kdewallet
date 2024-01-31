@@ -1,8 +1,8 @@
 # kdewallet
 ![KWallet](KWallet.png)
 
-[![Java CI with Maven](https://github.com/purejava/kdewallet/workflows/Java%20CI%20with%20Maven/badge.svg)](https://github.com/purejava/kdewallet/actions?query=workflow%3A%22Java+CI+with+Maven%22)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b1379afd2db3447abfbdca82fbdc2b7a)](https://www.codacy.com/gh/purejava/kdewallet/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=purejava/kdewallet&amp;utm_campaign=Badge_Grade)
+[![Publish to Maven Central](https://github.com/purejava/kdewallet/workflows/Publish%20to%20Maven%20Central/badge.svg)](https://github.com/purejava/kdewallet/actions?query=workflow%3A%22Publish+to+Maven+Central%22)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b1379afd2db3447abfbdca82fbdc2b7a)](https://app.codacy.com/gh/purejava/kdewallet/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Maven Central](https://img.shields.io/maven-central/v/org.purejava/kdewallet.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=kdewallet&smo=true&namespace=org.purejava)
 [![License](https://img.shields.io/github/license/purejava/kdewallet.svg)](https://github.com/purejava/kdewallet/blob/master/LICENSE)
 
@@ -19,7 +19,7 @@ Add `kdewallet` as a dependency to your project.
 <dependency>
     <groupId>org.purejava</groupId>
     <artifactId>kdewallet</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 
@@ -74,4 +74,4 @@ Thanks to David M., who wrote an improved version of [Java DBus](https://github.
 Thanks to Sebastian Wiesendahl, who implemented the original core messaging interface to DBus in his [secret-service](https://github.com/swiesend/secret-service) library.
 
 ## Copyright
-Copyright (C) 2020-2023 Ralph Plawetzki
+Copyright (C) 2020-2024 Ralph Plawetzki
