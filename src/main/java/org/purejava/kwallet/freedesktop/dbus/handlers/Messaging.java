@@ -28,7 +28,7 @@ abstract public class Messaging {
             this.sh.connect(connection, signals);
         }
         if (null == serviceName || null == objectPath) {
-            LOG.error("Severe error: Kwallet daemon not initialized properly");
+            LOG.error("Kwallet daemon not initialized properly");
         }
         this.serviceName = serviceName;
         this.objectPath = objectPath;
