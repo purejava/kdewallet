@@ -6,7 +6,7 @@
 
     <groupId>org.purejava</groupId>
     <artifactId>kdewallet</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.1</version>
     <packaging>jar</packaging>
 
     <name>kdewallet</name>
@@ -47,13 +47,13 @@
         <dependency>
             <groupId>com.github.hypfvieh</groupId>
             <artifactId>dbus-java-core</artifactId>
-            <version>5.0.0</version>
+            <version>5.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.hypfvieh</groupId>
             <artifactId>dbus-java-transport-native-unixsocket</artifactId>
-            <version>5.0.0</version>
+            <version>5.1.0</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
