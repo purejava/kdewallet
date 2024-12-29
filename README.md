@@ -74,4 +74,4 @@ Thanks to [David M.](https://github.com/hypfvieh), who wrote an improved version
 Thanks to [Sebastian Wiesendahl](https://github.com/swiesend), who implemented the original core messaging interface to DBus in his [secret-service](https://github.com/swiesend/secret-service) library.
 
 ## Copyright
-Copyright (C) 2020-2024 Ralph Plawetzki
+Copyright (C) 2020-2025 Ralph Plawetzki
