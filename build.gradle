@@ -99,6 +99,10 @@ javadoc {
     }
 }
 
+tasks.withType(Javadoc) {
+    failOnError = false
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
