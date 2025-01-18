@@ -31,10 +31,15 @@ jobs:
           GPG_SIGNING_KEY_B64: ${{ secrets.GPG_PRIVATE_KEY_B64 }}
           GPG_SIGNING_KEY_PW: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Setup GPG key information
+        run: |
+          mkdir -p ~/.gradle
+          echo "signing.gnupg.passphrase=${GPG_SIGNING_KEY_PW}" >> ~/.gradle/gradle.properties
+        env:
+          GPG_SIGNING_KEY_PW: ${{ secrets.GPG_PASSPHRASE }}
+
       - name: Build package
         run: ./gradlew clean build
-        env:
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Publish package
         run: ./gradlew publishToSonatype closeSonatypeStagingRepository
