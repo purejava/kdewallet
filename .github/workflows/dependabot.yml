@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: "weekly"
       day: "saturday"
-      time: "06:00"
+      time: "08:00"
       timezone: "Etc/UTC"
 
   - package-ecosystem: "github-actions"
@@ -16,3 +16,4 @@ updates:
       github-actions:
         patterns:
           - "*"
+
