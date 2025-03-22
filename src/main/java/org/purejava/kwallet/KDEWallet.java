@@ -22,7 +22,7 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     private static final Logger LOG = LoggerFactory.getLogger(KDEWallet.class);
     private static String SERVICE;
     private static String OBJECT_PATHS;
-    private DBusConnection connection;
+    private final DBusConnection connection;
 
     public static final List<Class<? extends DBusSignal>> SIGNALS = Arrays.asList(
             applicationDisconnected.class,
@@ -230,14 +230,24 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     public Map<String, byte[]> entriesList(int handle, String folder, String appid) {
         var map = contentOrEmptyMap(send("entriesList", "iss", handle, folder, appid));
         return map.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> (byte[]) e.getValue().getValue()));
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> {
+                    var objectList = (List<?>) e.getValue().getValue();
+                    var innerMap = new byte[objectList.size()];
+                    IntStream.range(0, objectList.size()).forEach(i -> innerMap[i] = (Byte) objectList.get(i));
+                    return innerMap;
+                }));
     }
 
     @Override
     public Map<String, byte[]> mapList(int handle, String folder, String appid) {
         var map = contentOrEmptyMap(send("mapList", "iss", handle, folder, appid));
         return map.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> (byte[]) e.getValue().getValue()));
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> {
+                    var objectList = (List<?>) e.getValue().getValue();
+                    var innerMap = new byte[objectList.size()];
+                    IntStream.range(0, objectList.size()).forEach(i -> innerMap[i] = (Byte) objectList.get(i));
+                    return innerMap;
+                }));
     }
 
     @Override
