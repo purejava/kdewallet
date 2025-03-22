@@ -21,7 +21,7 @@ dependencies {
 }
 
 group = 'org.purejava'
-version = '1.6.0'
+version = '1.6.1-SNAPSHOT'
 description = 'A Java library for storing secrets on linux in a KDE wallet over D-Bus, implements kwallet.'
 java.sourceCompatibility = JavaVersion.VERSION_19
 
