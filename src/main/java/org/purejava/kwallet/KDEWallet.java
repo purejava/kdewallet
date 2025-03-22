@@ -197,6 +197,22 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     @Override
     public byte[] readEntry(int handle, String folder, String key, String appid) {
         var response = send("readEntry", "isss", handle, folder, key, appid);
+        return getBytes(response);
+    }
+
+    @Override
+    public byte[] readMap(int handle, String folder, String key, String appid) {
+        var response = send("readMap", "isss", handle, folder, key, appid);
+        return getBytes(response);
+    }
+
+    /**
+     * Helper method to convert d-bus arg type "ay" (array of byte) into a byte[]
+     *
+     * @param response The b-bus reposnse to process
+     * @return The data part of the response converted
+     */
+    private byte[] getBytes(Object[] response) {
         if (null == response) {
             return new byte[0];
         } else {
@@ -204,19 +220,6 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
             var entry = new byte[objectList.size()];
             IntStream.range(0, objectList.size()).forEach(i -> entry[i] = (Byte) objectList.get(i));
             return entry;
-        }
-    }
-
-    @Override
-    public byte[] readMap(int handle, String folder, String key, String appid) {
-        var response = send("readMap", "isss", handle, folder, key, appid);
-        if (null == response) {
-            return new byte[0];
-        } else {
-            var objectList = (List<?>) response[0];
-            var map = new byte[objectList.size()];
-            IntStream.range(0, objectList.size()).forEach(i -> map[i] = (Byte) objectList.get(i));
-            return map;
         }
     }
 
