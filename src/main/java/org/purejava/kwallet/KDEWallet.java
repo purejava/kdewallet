@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
 
@@ -196,13 +197,27 @@ public class KDEWallet extends Messaging implements KWallet, AutoCloseable {
     @Override
     public byte[] readEntry(int handle, String folder, String key, String appid) {
         var response = send("readEntry", "isss", handle, folder, key, appid);
-        return null == response ? new byte[0] : (byte[]) response[0];
+        if (null == response) {
+            return new byte[0];
+        } else {
+            var objectList = (List<?>) response[0];
+            var entry = new byte[objectList.size()];
+            IntStream.range(0, objectList.size()).forEach(i -> entry[i] = (Byte) objectList.get(i));
+            return entry;
+        }
     }
 
     @Override
     public byte[] readMap(int handle, String folder, String key, String appid) {
         var response = send("readMap", "isss", handle, folder, key, appid);
-        return null == response ? new byte[0] : (byte[]) response[0];
+        if (null == response) {
+            return new byte[0];
+        } else {
+            var objectList = (List<?>) response[0];
+            var map = new byte[objectList.size()];
+            IntStream.range(0, objectList.size()).forEach(i -> map[i] = (Byte) objectList.get(i));
+            return map;
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,7 +72,9 @@ public class KDEWalletTest2 {
         assertEquals(entryType, 3);
         LOG.info("Type of entry for map is: {}.", entryType);
         response = kwallet.send("readEntry", "isss", handle, folder, key1, appid);
-        var entry = (byte[]) response[0];
+        var objectList = (List<?>) response[0];
+        var entry = new byte[objectList.size()];
+        IntStream.range(0, objectList.size()).forEach(i -> entry[i] = (Byte) objectList.get(i));
         assertEquals(new String(entry), "password");
         LOG.info("Raw data from secret successfully retrieved: {}.", new String(entry));
         LOG.info(me.toString());
@@ -103,7 +106,10 @@ public class KDEWalletTest2 {
         result = (int) response[0];
         assertEquals(result, 0);
         response = kwallet.send("readMap", "isss", handle, folder, key2, appid);
-        me.setByteField((byte[]) response[0]);
+        var objectListFromResponse = (List<?>) response[0];
+        var rm = new byte[objectListFromResponse.size()];
+        IntStream.range(0, objectListFromResponse.size()).forEach(i -> rm[i] = (Byte) objectListFromResponse.get(i));
+        me.setByteField(rm);
         assertTrue(me.hasValue("E", longString));
         LOG.info("Successfully stored and retrieved value '{}' with a length gt 63.", me.getValue("E"));
         var newName = "newName";
