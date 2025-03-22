@@ -17,14 +17,14 @@ The library provides an API, which sends secrets over D-Bus and has D-Bus signal
 Add `kdewallet` as a dependency to your project.
 ### Gradle
 ```groovy
-implementation group: 'org.purejava', name: 'kdewallet', version: '1.5.1'
+implementation group: 'org.purejava', name: 'kdewallet', version: '1.6.0'
 ```
 ### Maven
 ```maven
 <dependency>
     <groupId>org.purejava</groupId>
     <artifactId>kdewallet</artifactId>
-    <version>1.5.1</version>
+    <version>1.6.0</version>
 </dependency>
 ```
 
