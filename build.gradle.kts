@@ -23,12 +23,12 @@ dependencies {
 group = "org.purejava"
 version = "1.6.1-SNAPSHOT"
 description = "A Java library for storing secrets on linux in a KDE wallet over D-Bus, implements kwallet."
-java.sourceCompatibility = JavaVersion.VERSION_19
 
 val sonatypeUsername: String = System.getenv("SONATYPE_USERNAME") ?: ""
 val sonatypePassword: String = System.getenv("SONATYPE_PASSWORD") ?: ""
 
 java {
+    java.sourceCompatibility = JavaVersion.VERSION_19
     withSourcesJar()
     withJavadocJar()
 }
@@ -99,21 +99,14 @@ if (!version.toString().endsWith("-SNAPSHOT")) {
     }
 }
 
-tasks.javadoc {
-    if (JavaVersion.current().isJava9Compatible) {
-        (options as? StandardJavadocDocletOptions)?.addBooleanOption("html5", true)
-    }
-}
-
-tasks.withType<Javadoc> {
-    isFailOnError = false
-}
-
-
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
 tasks.withType<Javadoc> {
+    isFailOnError = false
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as? StandardJavadocDocletOptions)?.addBooleanOption("html5", true)
+    }
     (options as? StandardJavadocDocletOptions)?.encoding = "UTF-8"
 }
