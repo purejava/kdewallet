@@ -42,7 +42,7 @@ jobs:
         run: ./gradlew clean build -x test
 
       - name: Publish package
-        run: ./gradlew publishToSonatype closeSonatypeStagingRepository
+        run: ./gradlew publishToCentralPortal
         env:
           SONATYPE_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
