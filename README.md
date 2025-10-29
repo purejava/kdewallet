@@ -10,6 +10,10 @@ A Java library for storing secrets on linux in a KDE wallet over D-Bus.
 
 The KDE wallet functionality itself is provided by the kwallet daemon [kwalletd](https://github.com/KDE/kwallet/tree/master/src/runtime/kwalletd).
 
+**This library is superseeded by its successor: [Secret Service](https://github.com/purejava/secret-service).**
+
+**Also see: https://planet.kde.org/marco-martin-2025-04-14-towards-a-transition-from-kwallet-to-secret-service/**
+
 ## Usage
 The library provides an API, which sends secrets over D-Bus and has D-Bus signaling enabled.
 
